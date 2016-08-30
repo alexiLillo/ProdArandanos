@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="cl.lillo.prodarandanos.MainActivity">
+
+    <TabHost
+        android:id="@+id/tabHost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Pesaje de cajas"
+                        android:textColor="#fff"
+                        android:textSize="25sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="  Fundo:" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="  Potrero:" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="  Sector:" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spinFundo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="1dp"
+                            android:layout_height="45dp"
+                            android:layout_margin="0dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal" />
+
+                        <Spinner
+                            android:id="@+id/spinPotrero"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|center"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="1dp"
+                            android:layout_height="45dp"
+                            android:layout_margin="0dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal" />
+
+                        <Spinner
+                            android:id="@+id/spinSector"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|center"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorAccent"
+                        android:orientation="horizontal" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="  Variedad:" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="  Cuartel:" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spinVariedad"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="1dp"
+                            android:layout_height="45dp"
+                            android:layout_margin="0dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal" />
+
+                        <Spinner
+                            android:id="@+id/spinCuartel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|center"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorAccent"
+                        android:orientation="horizontal" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:text="Trabajador: "
+                            android:textSize="30sp" />
+
+                        <TextView
+                            android:id="@+id/txtTrabajador"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="S/D"
+                            android:textSize="30sp" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:background="@drawable/qr2"
+                            android:onClick="scanButton" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Cajas: "
+                            android:textSize="30sp" />
+
+                        <TextView
+                            android:id="@+id/txtCajas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="S/D"
+                            android:textSize="30sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Peso: "
+                            android:textSize="45sp" />
+
+                        <TextView
+                            android:id="@+id/txtPesoKL"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="S/D"
+                            android:textSize="45sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text=" kl"
+                            android:textSize="45sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/btExport"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_weight="1"
+                            android:background="@color/colorPrimary"
+                            android:drawableTop="@drawable/weight"
+                            android:text="Exportar"
+                            android:textColor="#fff" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:background="@android:color/holo_red_light"
+                            android:drawableTop="@drawable/clear"
+                            android:onClick="clear"
+                            android:text="Limpiar"
+                            android:textColor="#fff" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Credenciales"
+                        android:textColor="#fff"
+                        android:textSize="25sp" />
+
+                    <EditText
+                        android:id="@+id/txtRut"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="1234567890-k"
+                        android:focusable="false"
+                        android:hint="Rut: 1111111-1"
+                        android:maxLength="10"
+                        android:padding="16dp"
+                        android:textSize="25sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla1"
+                                android:text="1"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla2"
+                                android:text="2"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla3"
+                                android:text="3"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla4"
+                                android:text="4"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla5"
+                                android:text="5"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla6"
+                                android:text="6"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla7"
+                                android:text="7"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla8"
+                                android:text="8"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla9"
+                                android:text="9"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="teclaguion"
+                                android:text="-"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="tecla0"
+                                android:text="0"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="teclak"
+                                android:text="K"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="teclaborrar"
+                                android:text="C"
+                                android:textSize="20sp" />
+
+                            <Button
+                                android:layout_width="90dp"
+                                android:layout_height="65dp"
+                                android:onClick="teclaborrarAll"
+                                android:text="AC"
+                                android:textColor="@android:color/holo_red_light"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/scannerButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/colorPrimary"
+                        android:onClick="scanButton"
+                        android:text="Asignar credencial"
+                        android:textColor="#fff" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Sincronización"
+                        android:textColor="#fff"
+                        android:textSize="25sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Opciones"
+                        android:textColor="#fff"
+                        android:textSize="25sp" />
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+
+</LinearLayout>
