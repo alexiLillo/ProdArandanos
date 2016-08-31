@@ -282,9 +282,9 @@
                             android:textColor="#fff" />
                     </LinearLayout>
 
-
                 </LinearLayout>
 
+                <!-- asignacion de tarjetas -->
                 <LinearLayout
                     android:id="@+id/linearLayout2"
                     android:layout_width="match_parent"
@@ -454,12 +454,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:background="@color/colorPrimary"
-                        android:onClick="scanButton"
+                        android:enabled="false"
+                        android:onClick=""
                         android:text="Asignar credencial"
                         android:textColor="#fff" />
 
                 </LinearLayout>
 
+                <!-- sincronización -->
                 <LinearLayout
                     android:id="@+id/linearLayout3"
                     android:layout_width="match_parent"
@@ -475,8 +477,55 @@
                         android:text="Sincronización"
                         android:textColor="#fff"
                         android:textSize="25sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|top"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageButton
+                            android:id="@+id/btSync"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/sync2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sincronizar"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ultima sincronización: " />
+
+                            <TextView
+                                android:id="@+id/txtLastSync"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="S/D" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Al sincronizar se actualizarán datos necesarios para el funcionamiento óptimo de la aplicación, esto incluye datos trabajadores nuevos y antiguos, además de otros datos importantes.
+Tenga en cuenta que la sincronización puede tardar unos minutos." />
+
+                    </LinearLayout>
                 </LinearLayout>
 
+                <!-- opciones (consultar por trabajador) -->
                 <LinearLayout
                     android:id="@+id/linearLayout4"
                     android:layout_width="match_parent"
@@ -492,6 +541,143 @@
                         android:text="Opciones"
                         android:textColor="#fff"
                         android:textSize="25sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Consultar por trabajador:"
+                            android:textSize="25sp" />
+
+                        <ImageButton
+                            android:id="@+id/btConsultar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:background="@drawable/qr2"
+                            android:onClick="consultarButton" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtTrabajadorConsulta"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="S/D"
+                        android:textSize="25sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:text="Resumen diaro:"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bandejas: "
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/txtBandejasDia"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="S/D"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kilos: "
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/txtKilosDia"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="S/D"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginTop="38dp"
+                            android:text="Resumen historico:"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bandejas: "
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/txtBandejasTotal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="S/D"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kilos: "
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/txtKilosTotal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="S/D"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </FrameLayout>

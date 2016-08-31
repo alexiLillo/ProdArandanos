@@ -1,20 +1,16 @@
 package cl.lillo.prodarandanos;
 
-import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +37,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import cl.lillo.prodarandanos.Otros.CaptureActivityAnyOrientation;
+import cl.lillo.prodarandanos.Otros.QR;
 
 public class MainActivity extends Activity {
     private static final String TAG = "bluetooth2";
@@ -514,47 +511,55 @@ public class MainActivity extends Activity {
                 scanFormat = scanningResult.getFormatName().toString();
             }
 
-            if (scanContent != null) {
-                lista.add(scanContent);
-                Set<String> lista2 = new HashSet<>(lista);
-                listaFinal = lista2.toArray();
+            QR qr = QR.getInstance();
 
-                if (largo < listaFinal.length) {
-                    pop();
-                    largo = listaFinal.length;
-                    if (largo == 1) {
-                        txtTrabajador.setText(scanContent);
-                        Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
-                        scan();
-                    }
-                    if (largo == 2) {
-                        bandeja1 = scanContent;
-                        Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
-                        txtCajas.setText("1");
-                        scan();
-                    }
-                    if (largo == 3) {
-                        bandeja2 = scanContent;
-                        Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
-                        txtCajas.setText("2");
-                        scan();
-                    }
-                    if (largo == 4) {
-                        bandeja3 = scanContent;
-                        Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
-                        txtCajas.setText("3");
-                        scan();
-                    }
-                    if (largo == 5) {
-                        bandeja4 = scanContent;
-                        Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
-                        txtCajas.setText("4");
-                    }
-                } else {
-                    if (largo < 5) {
-                        scan();
+            if (qr.getTipoQR().equals("pesaje")) {
+
+                if (scanContent != null) {
+                    lista.add(scanContent);
+                    Set<String> lista2 = new HashSet<>(lista);
+                    listaFinal = lista2.toArray();
+
+                    if (largo < listaFinal.length) {
+                        pop();
+                        largo = listaFinal.length;
+                        if (largo == 1) {
+                            txtTrabajador.setText(scanContent);
+                            Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
+                            scan();
+                        }
+                        if (largo == 2) {
+                            bandeja1 = scanContent;
+                            Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
+                            txtCajas.setText("1");
+                            scan();
+                        }
+                        if (largo == 3) {
+                            bandeja2 = scanContent;
+                            Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
+                            txtCajas.setText("2");
+                            scan();
+                        }
+                        if (largo == 4) {
+                            bandeja3 = scanContent;
+                            Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
+                            txtCajas.setText("3");
+                            scan();
+                        }
+                        if (largo == 5) {
+                            bandeja4 = scanContent;
+                            Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
+                            txtCajas.setText("4");
+                        }
+                    } else {
+                        if (largo < 5) {
+                            scan();
+                        }
                     }
                 }
+            } else if (qr.getTipoQR().equals("consulta")) {
+                //hacer la conzulta
+                String qrTrabajador = scanContent;
             }
 
             scanContent = null;
@@ -566,14 +571,28 @@ public class MainActivity extends Activity {
 
     public void scan() {
         if (largo < 5) {
+            QR qr = QR.getInstance();
+            qr.setTipoQR("pesaje");
             IntentIntegrator scanIntegrator = new IntentIntegrator(MainActivity.this);
-            scanIntegrator.setPrompt("Escanear código QR");
+            scanIntegrator.setPrompt("Escanear códigos QR");
             scanIntegrator.setBeepEnabled(false);
             scanIntegrator.setCaptureActivity(CaptureActivityAnyOrientation.class);
             scanIntegrator.setOrientationLocked(true);
             scanIntegrator.setBarcodeImageEnabled(true);
             scanIntegrator.initiateScan();
         }
+    }
+
+    public void consultarButton(View view) {
+        QR qr = QR.getInstance();
+        qr.setTipoQR("consulta");
+        IntentIntegrator scanIntegrator = new IntentIntegrator(MainActivity.this);
+        scanIntegrator.setPrompt("Consultar por código QR de Trabajador");
+        scanIntegrator.setBeepEnabled(false);
+        scanIntegrator.setCaptureActivity(CaptureActivityAnyOrientation.class);
+        scanIntegrator.setOrientationLocked(true);
+        scanIntegrator.setBarcodeImageEnabled(true);
+        scanIntegrator.initiateScan();
     }
 
     private void pop() {
