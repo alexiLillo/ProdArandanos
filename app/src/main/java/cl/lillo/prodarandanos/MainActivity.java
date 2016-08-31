@@ -42,9 +42,9 @@ import cl.lillo.prodarandanos.Otros.QR;
 public class MainActivity extends Activity {
     private static final String TAG = "bluetooth2";
 
-    TextView txtKL, txtLB, txtTrabajador, txtCajas;
+    private TextView txtKL, txtLB, txtTrabajador, txtCajas, txtTrabajadorConsulta;
     Handler h;
-    EditText txtRut;
+    private EditText txtRut;
 
     final int RECIEVE_MESSAGE = 1;        // Status  for Handler
     private BluetoothAdapter btAdapter = null;
@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        seleccionarMac();
+        //seleccionarMac();
 
         txtKL = (TextView) findViewById(R.id.txtPesoKL);
         //txtLB = (TextView) findViewById(R.id.txtPesoLB);
@@ -92,7 +92,7 @@ public class MainActivity extends Activity {
 
         txtTrabajador = (TextView) findViewById(R.id.txtTrabajador);
         txtCajas = (TextView) findViewById(R.id.txtCajas);
-
+        txtTrabajadorConsulta = (TextView) findViewById(R.id.txtTrabajadorConsulta);
         //TABS
         Resources res = getResources();
 
@@ -560,6 +560,7 @@ public class MainActivity extends Activity {
             } else if (qr.getTipoQR().equals("consulta")) {
                 //hacer la conzulta
                 String qrTrabajador = scanContent;
+                txtTrabajadorConsulta.setText(qrTrabajador);
             }
 
             scanContent = null;
