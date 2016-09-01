@@ -2,12 +2,16 @@ package cl.lillo.prodarandanos.Controlador;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLServer;
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLite;
@@ -70,7 +74,7 @@ public class GestionTablaVista {
             Connection con = helperSQLServer.CONN();
             if (con == null) {
                 return false;
-            } else if (deleteLocal()){
+            } else if (deleteLocal()) {
                 //Consulta SQL
                 String query = "select * from VistaApkPesaje";
                 Statement stmt = con.createStatement();
@@ -98,6 +102,99 @@ public class GestionTablaVista {
             return false;
         }
         return true;
+    }
+
+    //select para spinners
+    public ArrayList<String> selectFundo() {
+        ArrayList<String> lista = new ArrayList<>();
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select distinct ID_Fundo, nombreFundo from TablaVista", null);
+            if (cursor.getCount() > 1) {
+                lista.add("Seleccione...");
+            }
+            while (cursor.moveToNext()) {
+                lista.add(cursor.getString(1) + " - " + cursor.getString(0));
+            }
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar Fundo de TablaVista: " + ex.getMessage());
+        }
+        return lista;
+    }
+
+    public ArrayList<String> selectPotrero(String id_fundo) {
+        ArrayList<String> lista = new ArrayList<>();
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select distinct ID_Potrero, nombrePotrero from TablaVista where ID_Fundo = '" + id_fundo + "'", null);
+            if (cursor.getCount() > 1) {
+                lista.add("Seleccione...");
+            }
+            while (cursor.moveToNext()) {
+                lista.add(cursor.getString(0));
+                //listaFundos.add(cursor.getString(1) + " - " + cursor.getString(0));
+            }
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar Potrero de TablaVista: " + ex.getMessage());
+        }
+        return lista;
+    }
+
+    public ArrayList<String> selectSector(String id_fundo, String id_potrero) {
+        ArrayList<String> lista = new ArrayList<>();
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select distinct ID_Sector, nombreSector from TablaVista where ID_Fundo = '" + id_fundo + "' and ID_Potrero = '" + id_potrero + "'", null);
+            if (cursor.getCount() > 1) {
+                lista.add("Seleccione...");
+            }
+            while (cursor.moveToNext()) {
+                lista.add(cursor.getString(0));
+                //listaFundos.add(cursor.getString(1) + " - " + cursor.getString(0));
+            }
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar Sector de TablaVista: " + ex.getMessage());
+        }
+        return lista;
+    }
+
+    public ArrayList<String> selectVariedad(String id_fundo, String id_potrero, String id_sector) {
+        ArrayList<String> lista = new ArrayList<>();
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select distinct ID_Variedad, nombreVariedad from TablaVista where ID_Fundo = '" + id_fundo + "' and ID_Potrero = '" + id_potrero + "' and ID_Sector = '" + id_sector + "'", null);
+            if (cursor.getCount() > 1) {
+                lista.add("Seleccione...");
+            }
+            while (cursor.moveToNext()) {
+                lista.add(cursor.getString(1) + " - " + cursor.getString(0));
+            }
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar Variedad de TablaVista: " + ex.getMessage());
+        }
+        return lista;
+    }
+
+    public ArrayList<String> selectCuartel(String id_fundo, String id_potrero, String id_sector, String id_variedad) {
+        ArrayList<String> lista = new ArrayList<>();
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select distinct ID_Cuartel, nombreCuartel from TablaVista  where ID_Fundo = '" + id_fundo + "' and ID_Potrero = '" + id_potrero + "' and ID_Sector = '" + id_sector + "' and ID_Variedad = '" + id_variedad + "'", null);
+            if (cursor.getCount() > 1) {
+                lista.add("Seleccione...");
+            }
+            while (cursor.moveToNext()) {
+                lista.add(cursor.getString(1) + " - " + cursor.getString(0));
+            }
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar Cuartel de TablaVista: " + ex.getMessage());
+        }
+        return lista;
     }
 
 }

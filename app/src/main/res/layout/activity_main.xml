@@ -78,7 +78,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left|center"
-                            android:layout_weight="1" />
+                             />
 
                         <LinearLayout
                             android:layout_width="1dp"
@@ -182,7 +182,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="left|center"
                             android:text="Trabajador: "
-                            android:textSize="30sp" />
+                            android:textSize="25sp" />
 
                         <TextView
                             android:id="@+id/txtTrabajador"
@@ -191,7 +191,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="S/D"
-                            android:textSize="30sp" />
+                            android:textSize="25sp" />
 
                         <ImageButton
                             android:layout_width="wrap_content"
@@ -214,7 +214,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Cajas: "
-                            android:textSize="30sp" />
+                            android:textSize="25sp" />
 
                         <TextView
                             android:id="@+id/txtCajas"
@@ -222,7 +222,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="S/D"
-                            android:textSize="30sp" />
+                            android:textSize="25sp" />
 
                     </LinearLayout>
 
@@ -238,7 +238,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Peso: "
-                            android:textSize="45sp" />
+                            android:textSize="40sp" />
 
                         <TextView
                             android:id="@+id/txtPesoKL"
@@ -253,31 +253,36 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text=" kl"
-                            android:textSize="45sp" />
+                            android:textSize="40sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginTop="36dp">
 
                         <Button
                             android:id="@+id/btExport"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="80dp"
                             android:layout_marginTop="16dp"
                             android:layout_weight="1"
                             android:background="@color/colorPrimary"
                             android:drawableTop="@drawable/weight"
+                            android:padding="16dp"
                             android:text="Exportar"
                             android:textColor="#fff" />
 
                         <Button
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="80dp"
                             android:layout_marginTop="16dp"
                             android:background="@android:color/holo_red_light"
                             android:drawableTop="@drawable/clear"
                             android:onClick="clear"
+                            android:padding="16dp"
                             android:text="Limpiar"
                             android:textColor="#fff" />
                     </LinearLayout>
@@ -451,11 +456,12 @@
                     <Button
                         android:id="@+id/scannerButton"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_marginTop="16dp"
                         android:background="@color/colorPrimary"
                         android:enabled="false"
                         android:onClick=""
+                        android:padding="16dp"
                         android:text="Asignar credencial"
                         android:textColor="#fff" />
 
@@ -568,11 +574,11 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
 
                     <TextView
                         android:id="@+id/txtTrabajadorConsulta"
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="S/D"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,11 +37,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import cl.lillo.prodarandanos.Controlador.GestionTablaVista;
 import cl.lillo.prodarandanos.Otros.CaptureActivityAnyOrientation;
 import cl.lillo.prodarandanos.Otros.QR;
 
 public class MainActivity extends Activity {
     private static final String TAG = "bluetooth2";
+
+    private String fundo = "";
+    private String potrero = "";
+    private String sector = "";
+    private String cuartel = "";
+    private String variedad = "";
 
     private TextView txtKL, txtLB, txtTrabajador, txtCajas, txtTrabajadorConsulta;
     Handler h;
@@ -71,6 +79,9 @@ public class MainActivity extends Activity {
     private int largo;
     private String bandeja1, bandeja2, bandeja3, bandeja4;
 
+    //Gestiones
+    private GestionTablaVista gestionTablaVista;
+
     /**
      * Called when the activity is first created.
      */
@@ -93,6 +104,8 @@ public class MainActivity extends Activity {
         txtTrabajador = (TextView) findViewById(R.id.txtTrabajador);
         txtCajas = (TextView) findViewById(R.id.txtCajas);
         txtTrabajadorConsulta = (TextView) findViewById(R.id.txtTrabajadorConsulta);
+
+        gestionTablaVista = new GestionTablaVista(this);
         //TABS
         Resources res = getResources();
 
@@ -192,22 +205,130 @@ public class MainActivity extends Activity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
 
-        String[] listaFundo = {"COPIHUE"};
-        String[] listaPotrero = {"POTRERO 11", "POTRERO 17"};
-        String[] listaSector = {"SECTOR A", "SECTOR B", "SECTOR C"};
-        String[] listaVariedad = {"DUKE", "LEGACY", "CAMELIA"};
-        String[] listaCuartel = {"CUARTEL D 01", "CUARTEL D 02", " CUARTEL D 03"};
-
-        ArrayAdapter<String> adapterF = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listaFundo);
+        ArrayAdapter adapterF = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectFundo());
         spinFundo.setAdapter(adapterF);
-        ArrayAdapter<String> adapterP = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listaPotrero);
-        spinPotrero.setAdapter(adapterP);
-        ArrayAdapter<String> adapterS = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listaSector);
-        spinSector.setAdapter(adapterS);
-        ArrayAdapter<String> adapterV = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listaVariedad);
-        spinVariedad.setAdapter(adapterV);
-        ArrayAdapter<String> adapterC = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listaCuartel);
-        spinCuartel.setAdapter(adapterC);
+        spinFundo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!spinFundo.getItemAtPosition(position).toString().equals("Seleccione...")) {
+                    String[] split = spinFundo.getItemAtPosition(position).toString().split("-");
+                    fundo = split[1].replace(" ", "");
+                    ArrayAdapter adapterP = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectPotrero(fundo));
+                    spinPotrero.setAdapter(adapterP);
+                } else if(spinFundo.getItemAtPosition(position).toString().equals("Seleccione...")){
+                    fundo = "";
+                    potrero = "";
+                    sector = "";
+                    variedad = "";
+                    cuartel = "";
+                    ArrayAdapter adapterP = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectPotrero(""));
+                    spinPotrero.setAdapter(adapterP);
+                    ArrayAdapter adapterS = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectSector("", ""));
+                    spinSector.setAdapter(adapterS);
+                    ArrayAdapter adapterV = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectVariedad("", "", ""));
+                    spinVariedad.setAdapter(adapterV);
+                    ArrayAdapter adapterC = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectCuartel("", "", "", ""));
+                    spinCuartel.setAdapter(adapterC);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinPotrero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!spinPotrero.getItemAtPosition(position).toString().equals("Seleccione...")) {
+                    String[] split = spinPotrero.getItemAtPosition(position).toString().split("-");
+                    potrero = split[0].replace(" ", "");
+                    ArrayAdapter adapterS = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectSector(fundo, potrero));
+                    spinSector.setAdapter(adapterS);
+                } else if(spinPotrero.getItemAtPosition(position).toString().equals("Seleccione...")){
+                    potrero = "";
+                    sector = "";
+                    variedad = "";
+                    cuartel = "";
+                    ArrayAdapter adapterS = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectSector("", ""));
+                    spinSector.setAdapter(adapterS);
+                    ArrayAdapter adapterV = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectVariedad("", "", ""));
+                    spinVariedad.setAdapter(adapterV);
+                    ArrayAdapter adapterC = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectCuartel("", "", "", ""));
+                    spinCuartel.setAdapter(adapterC);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinSector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!spinSector.getItemAtPosition(position).toString().equals("Seleccione...")) {
+                    String[] split = spinSector.getItemAtPosition(position).toString().split("-");
+                    sector = split[0].replace(" ", "");
+                    ArrayAdapter adapterV = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectVariedad(fundo, potrero, sector));
+                    spinVariedad.setAdapter(adapterV);
+                }else if(spinSector.getItemAtPosition(position).toString().equals("Seleccione...")){
+                    sector = "";
+                    variedad = "";
+                    cuartel = "";
+                    ArrayAdapter adapterV = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectVariedad("", "", ""));
+                    spinVariedad.setAdapter(adapterV);
+                    ArrayAdapter adapterC = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectCuartel("", "", "", ""));
+                    spinCuartel.setAdapter(adapterC);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinVariedad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!spinVariedad.getItemAtPosition(position).toString().equals("Seleccione...")) {
+                    String[] split = spinVariedad.getItemAtPosition(position).toString().split("-");
+                    variedad = split[1].replace(" ", "");
+                    ArrayAdapter adapterC = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectCuartel(fundo, potrero, sector, variedad));
+                    spinCuartel.setAdapter(adapterC);
+                }else if(spinVariedad.getItemAtPosition(position).toString().equals("Seleccione...")){
+                    variedad = "";
+                    cuartel = "";
+                    ArrayAdapter adapterC = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectCuartel("", "", "", ""));
+                    spinCuartel.setAdapter(adapterC);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinCuartel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!spinCuartel.getItemAtPosition(position).toString().equals("Seleccione...")) {
+                    String[] split = spinCuartel.getItemAtPosition(position).toString().split("-");
+                    cuartel = split[1].replace(" ", "");
+                }else{
+                    cuartel = "";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
