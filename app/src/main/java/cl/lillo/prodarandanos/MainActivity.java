@@ -805,7 +805,7 @@ public class MainActivity extends Activity {
 
                         }
                     })
-                    .setNegativeButton("Cancelar,", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
                         }
