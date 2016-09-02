@@ -167,7 +167,6 @@ public class MainActivity extends Activity {
                                 neg = "";
                             }
                             if (num == -1 && num2 != 67 && num2 != 3 && num2 != 35 && num2 != 99) {
-                                //if (num == -1) {
                                 coma = converter(Integer.parseInt(cadena[1].replace(" ", "")));
                                 peso = converter(Integer.parseInt(cadena[2].replace(" ", "")));
                                 cienLibras = Integer.parseInt(cadena[3].replace(" ", ""));
@@ -179,7 +178,6 @@ public class MainActivity extends Activity {
                                 } else {
                                     txtKL.setText(neg + peso + "." + coma);
                                 }
-                                //}
                             } else if (num == 67 || num == 3 || num == 99 || num == 35) {
                                 coma = converter(Integer.parseInt(cadena[1].replace(" ", "")));
                                 peso = converter(Integer.parseInt(cadena[2].replace(" ", "")));
@@ -215,7 +213,7 @@ public class MainActivity extends Activity {
                     fundo = split[1].replace(" ", "");
                     ArrayAdapter adapterP = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectPotrero(fundo));
                     spinPotrero.setAdapter(adapterP);
-                } else if(spinFundo.getItemAtPosition(position).toString().equals("Seleccione...")){
+                } else if (spinFundo.getItemAtPosition(position).toString().equals("Seleccione...")) {
                     fundo = "";
                     potrero = "";
                     sector = "";
@@ -246,7 +244,7 @@ public class MainActivity extends Activity {
                     potrero = split[0].replace(" ", "");
                     ArrayAdapter adapterS = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectSector(fundo, potrero));
                     spinSector.setAdapter(adapterS);
-                } else if(spinPotrero.getItemAtPosition(position).toString().equals("Seleccione...")){
+                } else if (spinPotrero.getItemAtPosition(position).toString().equals("Seleccione...")) {
                     potrero = "";
                     sector = "";
                     variedad = "";
@@ -274,7 +272,7 @@ public class MainActivity extends Activity {
                     sector = split[0].replace(" ", "");
                     ArrayAdapter adapterV = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectVariedad(fundo, potrero, sector));
                     spinVariedad.setAdapter(adapterV);
-                }else if(spinSector.getItemAtPosition(position).toString().equals("Seleccione...")){
+                } else if (spinSector.getItemAtPosition(position).toString().equals("Seleccione...")) {
                     sector = "";
                     variedad = "";
                     cuartel = "";
@@ -299,7 +297,7 @@ public class MainActivity extends Activity {
                     variedad = split[1].replace(" ", "");
                     ArrayAdapter adapterC = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectCuartel(fundo, potrero, sector, variedad));
                     spinCuartel.setAdapter(adapterC);
-                }else if(spinVariedad.getItemAtPosition(position).toString().equals("Seleccione...")){
+                } else if (spinVariedad.getItemAtPosition(position).toString().equals("Seleccione...")) {
                     variedad = "";
                     cuartel = "";
                     ArrayAdapter adapterC = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectCuartel("", "", "", ""));
@@ -319,7 +317,7 @@ public class MainActivity extends Activity {
                 if (!spinCuartel.getItemAtPosition(position).toString().equals("Seleccione...")) {
                     String[] split = spinCuartel.getItemAtPosition(position).toString().split("-");
                     cuartel = split[1].replace(" ", "");
-                }else{
+                } else {
                     cuartel = "";
                 }
             }
@@ -642,7 +640,7 @@ public class MainActivity extends Activity {
                     listaFinal = lista2.toArray();
 
                     if (largo < listaFinal.length) {
-                        pop();
+                        ok();
                         largo = listaFinal.length;
                         if (largo == 1) {
                             txtTrabajador.setText(scanContent);
@@ -674,7 +672,9 @@ public class MainActivity extends Activity {
                         }
                     } else {
                         if (largo < 5) {
+                            Toast.makeText(this, "Código ya leido!", Toast.LENGTH_SHORT).show();
                             scan();
+                            error();
                         }
                     }
                 }
@@ -682,6 +682,7 @@ public class MainActivity extends Activity {
                 //hacer la conzulta
                 String qrTrabajador = scanContent;
                 txtTrabajadorConsulta.setText(qrTrabajador);
+                ok();
             }
 
             scanContent = null;
@@ -719,6 +720,18 @@ public class MainActivity extends Activity {
 
     private void pop() {
         MediaPlayer mp = MediaPlayer.create(this, R.raw.pop);
+        mp.start();
+    }
+
+    private void ok() {
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.ok);
+        mp.setVolume(50, 50);
+        mp.start();
+    }
+
+    private void error() {
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.error);
+        mp.setVolume(50, 50);
         mp.start();
     }
 
