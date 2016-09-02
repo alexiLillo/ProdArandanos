@@ -9,6 +9,7 @@ import android.util.Log;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLServer;
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLite;
@@ -98,7 +99,7 @@ public class GestionPesaje {
             SQLiteDatabase data = helper.getReadableDatabase();
             Cursor cursor = data.rawQuery("select * from PesajeSync", null);
             while (cursor.moveToNext()) {
-                Pesaje pesaje = Pesaje.getInstance();
+                Pesaje pesaje = new Pesaje();
                 pesaje.setProducto(cursor.getString(0));
                 pesaje.setQRenvase(cursor.getString(1));
                 pesaje.setRutTrabajador(cursor.getString(2));
@@ -123,7 +124,6 @@ public class GestionPesaje {
         } catch (Exception ex) {
             Log.w(TAG, "...Error al leer pesaje local SYNC: " + ex.getMessage());
         }
-
         return listaPesajes;
     }
 
@@ -141,7 +141,9 @@ public class GestionPesaje {
 
     public boolean selectLocalInsertServer() {
         ArrayList<Pesaje> listaPesajes = selectLocalSync();
-        for (Pesaje p : listaPesajes) {
+        Iterator iterador = listaPesajes.listIterator();
+        while (iterador.hasNext()) {
+            Pesaje p = (Pesaje) iterador.next();
             try {
                 Connection con = helperSQLServer.CONN();
                 if (con == null) {

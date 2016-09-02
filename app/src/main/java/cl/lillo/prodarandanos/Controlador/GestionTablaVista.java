@@ -80,7 +80,7 @@ public class GestionTablaVista {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    TablaVista tablaVista = TablaVista.getInstance();
+                    TablaVista tablaVista = new TablaVista();
                     tablaVista.setID_Fundo(rs.getString("ID_Fundo"));
                     tablaVista.setNombreFundo(rs.getString("nombreFundo"));
                     tablaVista.setID_Potrero(rs.getString("ID_Potrero"));
@@ -197,4 +197,18 @@ public class GestionTablaVista {
         return lista;
     }
 
+    public int lastMapeo(){
+        int mapeo = 0;
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select distinct max(ID_Mapeo) from TablaVista", null);
+            while (cursor.moveToNext()) {
+                mapeo = cursor.getInt(0);
+            }
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar maximo Mapeo de TablaVista: " + ex.getMessage());
+        }
+        return mapeo;
+    }
 }

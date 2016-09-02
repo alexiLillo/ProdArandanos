@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -32,12 +33,18 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import cl.lillo.prodarandanos.Controlador.GestionPesaje;
 import cl.lillo.prodarandanos.Controlador.GestionTablaVista;
+import cl.lillo.prodarandanos.Controlador.GestionTara;
+import cl.lillo.prodarandanos.Controlador.Sync;
+import cl.lillo.prodarandanos.Modelo.Pesaje;
+import cl.lillo.prodarandanos.Modelo.Tara;
 import cl.lillo.prodarandanos.Otros.CaptureActivityAnyOrientation;
 import cl.lillo.prodarandanos.Otros.QR;
 
@@ -69,7 +76,7 @@ public class MainActivity extends Activity {
     private String mac;
     private String neg = "";
     private Button scannerButton;
-    private Spinner spinFundo, spinPotrero, spinSector, spinVariedad, spinCuartel;
+    private Spinner spinFundo, spinPotrero, spinSector, spinVariedad, spinCuartel, spinTara;
     String scanContent;
     String scanFormat;
     int escaneos = 0;
@@ -78,17 +85,26 @@ public class MainActivity extends Activity {
     private Object[] listaFinal = new Object[0];
     private int largo;
     private String bandeja1, bandeja2, bandeja3, bandeja4;
+    private int cantidadBandejas;
 
     //Gestiones
+    private Sync sync;
     private GestionTablaVista gestionTablaVista;
+    private GestionPesaje gestionPesaje;
+    private GestionTara gestionTara;
+
 
     /**
      * Called when the activity is first created.
      */
+    private Context context;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = this;
 
         //seleccionarMac();
 
@@ -100,12 +116,17 @@ public class MainActivity extends Activity {
         spinSector = (Spinner) findViewById(R.id.spinSector);
         spinVariedad = (Spinner) findViewById(R.id.spinVariedad);
         spinCuartel = (Spinner) findViewById(R.id.spinCuartel);
+        spinTara = (Spinner) findViewById(R.id.spinTara);
 
         txtTrabajador = (TextView) findViewById(R.id.txtTrabajador);
         txtCajas = (TextView) findViewById(R.id.txtCajas);
         txtTrabajadorConsulta = (TextView) findViewById(R.id.txtTrabajadorConsulta);
 
         gestionTablaVista = new GestionTablaVista(this);
+        gestionPesaje =  new GestionPesaje(this);
+        gestionTara = new GestionTara(this);
+        sync = new Sync();
+
         //TABS
         Resources res = getResources();
 
@@ -328,6 +349,10 @@ public class MainActivity extends Activity {
             }
         });
 
+        ArrayAdapter adapterTara = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTara.selectTaraSpinner());
+        spinTara.setAdapter(adapterTara);
+
+        //startSyncAuto();
     }
 
     public void seleccionarMac() {
@@ -645,29 +670,34 @@ public class MainActivity extends Activity {
                         if (largo == 1) {
                             txtTrabajador.setText(scanContent);
                             Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
+                            cantidadBandejas = 0;
                             scan();
                         }
                         if (largo == 2) {
                             bandeja1 = scanContent;
                             Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
+                            cantidadBandejas = 1;
                             txtCajas.setText("1");
                             scan();
                         }
                         if (largo == 3) {
                             bandeja2 = scanContent;
                             Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
+                            cantidadBandejas = 2;
                             txtCajas.setText("2");
                             scan();
                         }
                         if (largo == 4) {
                             bandeja3 = scanContent;
                             Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
+                            cantidadBandejas = 3;
                             txtCajas.setText("3");
                             scan();
                         }
                         if (largo == 5) {
                             bandeja4 = scanContent;
                             Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
+                            cantidadBandejas = 4;
                             txtCajas.setText("4");
                         }
                     } else {
@@ -689,6 +719,99 @@ public class MainActivity extends Activity {
             onResume();
         } else {
             Toast.makeText(this, "No se escanearon datos", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void insertPesaje(View view) {
+        if(!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("")) {
+            final String id_tara = spinTara.getSelectedItem().toString().substring(0, 2).replace(" ", "");
+            Tara tara = gestionTara.selectLocal(id_tara);
+            final Pesaje pesaje = new Pesaje();
+            pesaje.setProducto(tara.getProducto());
+            //pesaje.setQRenvase();
+            pesaje.setRutTrabajador(txtTrabajador.getText().toString());
+            //rut pesador se debe escanear al iniciar
+            pesaje.setRutPesador("s/d");
+            pesaje.setFundo(fundo);
+            pesaje.setPotrero(potrero);
+            pesaje.setSector(sector);
+            pesaje.setVariedad(variedad);
+            pesaje.setCuartel(cuartel);
+
+            Calendar c = Calendar.getInstance();
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            String dia = "" + day;
+            int month = c.get(Calendar.MONTH) + 1;
+            String mes = "" + month;
+            int year = c.get(Calendar.YEAR);
+
+            if (day < 10)
+                dia = "0" + day;
+            if (month < 10)
+                mes = "0" + mes;
+            String fecha = dia + "/" + mes + "/" + year;
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int min = c.get(Calendar.MINUTE);
+            String hora = hour + ":" + min;
+
+            pesaje.setFechaHora(fecha + " " + hora);
+            // PESO SE DEBE RESTAR TARA
+            pesaje.setPesoNeto((Double.parseDouble(txtKL.getText().toString()) / cantidadBandejas) - tara.getPeso());
+            pesaje.setTara(tara.getPeso());
+            pesaje.setFormato(tara.getFormato());
+            pesaje.setTotalCantidad(1);
+            pesaje.setFactor(1);
+            pesaje.setCantidad(1);
+            pesaje.setLectura_SVAL("");
+            pesaje.setID_Map(gestionTablaVista.lastMapeo());
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Guardar pesaje?")
+                    .setCancelable(true)
+                    .setMessage("Trabajador: " + txtTrabajador.getText().toString() + "\nBandejas: " + cantidadBandejas + "\nPeso Bruto: " + txtKL.getText().toString() + "\nPeso Neto: " + String.valueOf(Double.parseDouble(txtKL.getText().toString()) - (tara.getPeso() * cantidadBandejas)))
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (cantidadBandejas == 0) {
+                                Toast.makeText(MainActivity.this, "No se escanearon bandejas!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (cantidadBandejas >= 1) {
+                                    Pesaje pesaje1 = pesaje;
+                                    pesaje1.setQRenvase(bandeja1);
+                                    gestionPesaje.insertLocal(pesaje1);
+                                    gestionPesaje.insertLocalSync(pesaje1);
+                                }
+                                if (cantidadBandejas >= 2) {
+                                    Pesaje pesaje2 = pesaje;
+                                    pesaje2.setQRenvase(bandeja2);
+                                    gestionPesaje.insertLocal(pesaje2);
+                                    gestionPesaje.insertLocalSync(pesaje2);
+                                }
+                                if (cantidadBandejas >= 3) {
+                                    Pesaje pesaje3 = pesaje;
+                                    pesaje3.setQRenvase(bandeja3);
+                                    gestionPesaje.insertLocal(pesaje3);
+                                    gestionPesaje.insertLocalSync(pesaje3);
+                                }
+                                if (cantidadBandejas >= 4) {
+                                    Pesaje pesaje4 = pesaje;
+                                    pesaje4.setQRenvase(bandeja4);
+                                    gestionPesaje.insertLocal(pesaje4);
+                                    gestionPesaje.insertLocalSync(pesaje4);
+                                }
+                                Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
+                                pop();
+                                System.out.println(".........LISTA SYNC....." + gestionPesaje.selectLocalSync().toString());
+                            }
+
+                        }
+                    })
+                    .setNegativeButton("Cancelar,", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+        }else{
+            Toast.makeText(MainActivity.this, "Seleccione todos los campos!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -744,5 +867,33 @@ public class MainActivity extends Activity {
         bandeja4 = "";
         largo = 0;
         lista.clear();
+    }
+
+    //SINCRONIZACION
+    public void syncCompleta(View view) {
+        sync.eventoSyncAll(view.getContext(), true);
+    }
+
+    public void syncPesaje(View view) {
+        sync.eventoSyncPesaje(view.getContext(), false);
+    }
+
+    private final static int INTERVAL = 1000 * 60 * 10; //10 minutes
+    Handler mHandler = new Handler();
+    Runnable mHandlerTask = new Runnable() {
+        @Override
+        public void run() {
+            sync.eventoSyncPesaje(context, false);
+            System.out.println(".........SINCRONIZA PESAJE..........");
+            mHandler.postDelayed(mHandlerTask, INTERVAL);
+        }
+    };
+
+    void startSyncAuto() {
+        mHandlerTask.run();
+    }
+
+    void stopSyncAuto() {
+        mHandler.removeCallbacks(mHandlerTask);
     }
 }

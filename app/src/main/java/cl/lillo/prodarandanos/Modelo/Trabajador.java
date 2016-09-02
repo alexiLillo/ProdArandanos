@@ -12,6 +12,7 @@ public class Trabajador {
     private String Nombre;
     private String Apellido;
     private String QRrut;
+    private String FechaNacimiento;
 
     //constructor
     public Trabajador() {
@@ -48,6 +49,14 @@ public class Trabajador {
 
     public void setRut(String rut) {
         Rut = rut;
+    }
+
+    public String getFechaNacimiento() {
+        return FechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        FechaNacimiento = fechaNacimiento;
     }
 
     //auto-instancia (creo)

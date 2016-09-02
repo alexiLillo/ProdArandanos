@@ -37,6 +37,7 @@ public class GestionTrabajador {
             cv.put("Nombre", trabajador.getNombre());
             cv.put("Apellido", trabajador.getApellido());
             cv.put("QRrut", trabajador.getQRrut());
+            cv.put("FechaNacimiento", trabajador.getFechaNacimiento());
             data.insertWithOnConflict("Trabajador", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
             data.close();
             return true;
@@ -69,12 +70,12 @@ public class GestionTrabajador {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    Trabajador trabajador = Trabajador.getInstance();
+                    Trabajador trabajador = new Trabajador();
                     trabajador.setRut(rs.getString("Rut"));
                     trabajador.setNombre(rs.getString("Nombre"));
                     trabajador.setApellido(rs.getString("Apellido"));
                     trabajador.setQRrut(rs.getString("QRrut"));
-
+                    trabajador.setFechaNacimiento(rs.getString("FechaNacimiento"));
                     insertLocal(trabajador);
                 }
                 con.close();
