@@ -171,6 +171,7 @@
                         android:orientation="horizontal" />
 
                     <LinearLayout
+                        android:layout_marginTop="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -227,6 +228,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_marginBottom="22dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -264,7 +266,7 @@
                             android:onClick="insertPesaje"
                             android:id="@+id/btExport"
                             android:layout_width="wrap_content"
-                            android:layout_height="80dp"
+                            android:layout_height="81dp"
                             android:layout_marginTop="16dp"
                             android:layout_weight="1"
                             android:background="@color/colorPrimary"
@@ -275,7 +277,7 @@
 
                         <Button
                             android:layout_width="wrap_content"
-                            android:layout_height="80dp"
+                            android:layout_height="81dp"
                             android:layout_marginTop="16dp"
                             android:background="@android:color/holo_red_light"
                             android:drawableTop="@drawable/clear"
@@ -316,6 +318,7 @@
                         android:textSize="25sp" />
 
                     <LinearLayout
+                        android:layout_marginBottom="19dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -559,7 +562,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Consultar por trabajador:"
-                            android:textSize="25sp" />
+                            android:textSize="20sp" />
 
                         <ImageButton
                             android:id="@+id/btConsultar"
@@ -567,7 +570,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:background="@drawable/qr2"
-                            android:onClick="consultarButton" />
+                            android:onClick="scanConsulta" />
 
                     </LinearLayout>
 
@@ -577,7 +580,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="S/D"
-                        android:textSize="25sp" />
+                        android:textSize="20sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -588,7 +591,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
+                            android:layout_marginBottom="10dp"
                             android:text="Resumen diaro:"
                             android:textSize="20sp" />
 
@@ -635,8 +638,8 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:layout_marginTop="38dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="16dp"
                             android:text="Resumen historico:"
                             android:textSize="20sp" />
 
@@ -702,7 +705,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Seleccionar Tara:"
-                            android:textSize="25sp" />
+                            android:textSize="20sp" />
                     </LinearLayout>
 
                     <Spinner

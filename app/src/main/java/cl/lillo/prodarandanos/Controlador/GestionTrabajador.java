@@ -2,12 +2,14 @@ package cl.lillo.prodarandanos.Controlador;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Calendar;
 
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLServer;
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLite;
@@ -64,7 +66,7 @@ public class GestionTrabajador {
             Connection con = helperSQLServer.CONN();
             if (con == null) {
                 return false;
-            } else if (deleteLocal()){
+            } else if (deleteLocal()) {
                 //Consulta SQL
                 String query = "select * from Trabajador";
                 Statement stmt = con.createStatement();
@@ -85,5 +87,99 @@ public class GestionTrabajador {
             return false;
         }
         return true;
+    }
+
+    public boolean existe(String qrrut) {
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select QRrut from Trabajador where QRrut = '" + qrrut + "'", null);
+            if (cursor.moveToNext()) {
+                return true;
+            } else return false;
+
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al comprobarsi existe trabajador: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public String resumenHistorico(String rut, int mapeo) {
+        String nombre = "S/D";
+        String bandejasDia = "S/D";
+        String kilosDia = "S/D";
+        String bandejasTotal = "S/D";
+        String kilosTotal = "S/D";
+
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        String dia = "" + day;
+        int month = c.get(Calendar.MONTH) + 1;
+        String mes = "" + month;
+        int year = c.get(Calendar.YEAR);
+        String año = "" + year;
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int min = c.get(Calendar.MINUTE);
+        String hora = hour + ":" + min;
+
+        try {
+            Connection con = helperSQLServer.CONN();
+            if (con == null) {
+                return nombre + "-" + bandejasTotal + "-" + kilosTotal;
+            } else {
+                //Consulta SQL
+                String query = "Select Nombre, Apellido, PesoNeto, Cantidad from VistaConsulta where RutTrabajador = '" + rut + "' and ID_Map =" + mapeo + " and Anio = '" + año +"' ";
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    nombre = rs.getString("Nombre") + " " + rs.getString("Apellido");
+                    bandejasTotal = rs.getString("Cantidad");
+                    kilosTotal = rs.getString("PesoNeto");
+                }
+            }
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar Resumen del servidor: " + ex.getMessage());
+            return nombre + "-" + bandejasTotal + "-" + kilosTotal;
+        }
+        return nombre + "-" + bandejasTotal + "-" + kilosTotal;
+    }
+
+    public String resumenDia(String rut, int mapeo) {
+        String nombre = "S/D";
+        String bandejasDia = "S/D";
+        String kilosDia = "S/D";
+        String bandejasTotal = "S/D";
+        String kilosTotal = "S/D";
+
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        String dia = "" + day;
+        int month = c.get(Calendar.MONTH) + 1;
+        String mes = "" + month;
+        int year = c.get(Calendar.YEAR);
+        String año = "" + year;
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int min = c.get(Calendar.MINUTE);
+        String hora = hour + ":" + min;
+
+        try {
+            Connection con = helperSQLServer.CONN();
+            if (con == null) {
+                return bandejasDia + "-" + kilosDia;
+            } else {
+                //Consulta SQL
+                String query = "Select Nombre, Apellido, PesoNeto, Cantidad from VistaConsultaDia where RutTrabajador = '" + rut + "' and ID_Map =" + mapeo + " and Anio = '" + año +"' and Mes = '" + mes + "' and Dia = '" + dia + "' ";
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    bandejasDia = rs.getString("Cantidad");
+                    kilosDia = rs.getString("PesoNeto");
+                }
+            }
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar Resumen del servidor: " + ex.getMessage());
+            return bandejasDia + "-" + kilosDia;
+        }
+
+        return bandejasDia + "-" + kilosDia;
     }
 }

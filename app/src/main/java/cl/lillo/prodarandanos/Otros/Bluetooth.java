@@ -32,11 +32,11 @@ import cl.lillo.prodarandanos.R;
 public class Bluetooth {
     protected MainActivity context;
 
-    public Bluetooth(Context context){
+    public Bluetooth(Context context) {
         this.context = (MainActivity) context;
     }
 
-    public void updateTV(final String str1){
+    public void updateTV(final String str1) {
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -51,8 +51,8 @@ public class Bluetooth {
     Handler h;
 
     final int RECIEVE_MESSAGE = 1;        // Status  for Handler
-    private static BluetoothAdapter btAdapter = null;
-    private BluetoothSocket btSocket = null;
+    private static BluetoothAdapter btAdapter;
+    private BluetoothSocket btSocket;
     private ConnectedThread mConnectedThread;
 
     // SPP UUID service
@@ -68,7 +68,6 @@ public class Bluetooth {
     public void onCreate() {
         btAdapter = BluetoothAdapter.getDefaultAdapter();        // if device does not support Bluetooth
         checkBTState();
-        address = getBluetoothMacAddress();
 
         h = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -288,7 +287,7 @@ public class Bluetooth {
         }
     }
 
-    private static boolean checkBTState() {
+    public boolean checkBTState() {
         // Check for Bluetooth support and then check to make sure it is turned on
         // Emulator doesn't support Bluetooth and will return null
         if (btAdapter == null) {
@@ -297,13 +296,15 @@ public class Bluetooth {
         } else {
             if (btAdapter.isEnabled()) {
                 Log.d(TAG, "...Bluetooth ON...");
+                address = getBluetoothMacAddress();
                 return true;
             } else {
                 //Prompt user to turn on Bluetooth
                 //Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 //startActivityForResult(enableBtIntent, 1);
                 btAdapter.enable();
-                btAdapter = BluetoothAdapter.getDefaultAdapter();        // if device does not support Bluetooth
+                btAdapter = BluetoothAdapter.getDefaultAdapter();
+                address = getBluetoothMacAddress();
                 Log.d(TAG, "...Encenciendo Bluetooth...");
                 return true;
             }

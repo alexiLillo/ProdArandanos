@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -32,13 +34,17 @@ import cl.lillo.prodarandanos.Otros.*;
 
 public class MainActivity extends Activity {
 
+    NumberFormat formatter = new DecimalFormat("#0.00");
+    NumberFormat formatter2 = new DecimalFormat("#0");
+
     private String fundo = "";
     private String potrero = "";
     private String sector = "";
     private String cuartel = "";
     private String variedad = "";
+    private String pesador = "";
 
-    private TextView txtKL, txtTrabajador, txtCajas, txtTrabajadorConsulta;
+    private TextView txtKL, txtTrabajador, txtCajas, txtTrabajadorConsulta, txtBandejasDia, txtKilosDia, txtBandejasTotal, txtKilosTotal;
 
     private EditText txtRut;
 
@@ -57,7 +63,7 @@ public class MainActivity extends Activity {
     private GestionTablaVista gestionTablaVista;
     private GestionPesaje gestionPesaje;
     private GestionTara gestionTara;
-
+    private GestionTrabajador gestionTrabajador;
     private Bluetooth bluetooth;
     /**
      * Called when the activity is first created.
@@ -69,7 +75,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Bundle bundle = this.getIntent().getExtras();
+        pesador = bundle.getString("pesador");
+
         bluetooth = new Bluetooth(this);
+        bluetooth.onCreate();
 
         context = this;
 
@@ -85,10 +95,15 @@ public class MainActivity extends Activity {
         txtTrabajador = (TextView) findViewById(R.id.txtTrabajador);
         txtCajas = (TextView) findViewById(R.id.txtCajas);
         txtTrabajadorConsulta = (TextView) findViewById(R.id.txtTrabajadorConsulta);
+        txtBandejasDia = (TextView) findViewById(R.id.txtBandejasDia);
+        txtKilosDia = (TextView) findViewById(R.id.txtKilosDia);
+        txtBandejasTotal = (TextView) findViewById(R.id.txtBandejasTotal);
+        txtKilosTotal = (TextView) findViewById(R.id.txtKilosTotal);
 
         gestionTablaVista = new GestionTablaVista(this);
         gestionPesaje = new GestionPesaje(this);
         gestionTara = new GestionTara(this);
+        gestionTrabajador = new GestionTrabajador(this);
         sync = new Sync();
 
         //TABS
@@ -248,7 +263,6 @@ public class MainActivity extends Activity {
         ArrayAdapter adapterTara = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTara.selectTaraSpinner());
         spinTara.setAdapter(adapterTara);
 
-        bluetooth.onCreate();
         //startSyncAuto();
     }
 
@@ -256,12 +270,14 @@ public class MainActivity extends Activity {
     public void onResume() {
         super.onResume();
         bluetooth.onResume();
+        System.out.println("........................onResume Main............................");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         bluetooth.onPause();
+        System.out.println("........................onPause Main............................");
     }
 
     public void tecla1(View view) {
@@ -325,7 +341,7 @@ public class MainActivity extends Activity {
 
     //PROCESO DE ESCANEO DE CÓDIGO
     public void scanButton(View view) {
-        scan();
+        scanPesaje();
     }
 
     @Override
@@ -348,65 +364,101 @@ public class MainActivity extends Activity {
                     listaFinal = lista2.toArray();
 
                     if (largo < listaFinal.length) {
-                        ok();
+                        //ok();
                         largo = listaFinal.length;
                         if (largo == 1) {
-                            txtTrabajador.setText(scanContent);
-                            Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
-                            cantidadBandejas = 0;
-                            scan();
+                            if (gestionTrabajador.existe(scanContent)) {
+                                txtTrabajador.setText(scanContent);
+                                Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 0;
+                                scanPesaje();
+                                ok();
+                            } else {
+                                Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
+                                lista.clear();
+                                largo = 0;
+                                cantidadBandejas = 0;
+                                scanPesaje();
+                                error();
+                            }
                         }
                         if (largo == 2) {
                             bandeja1 = scanContent;
                             Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
                             cantidadBandejas = 1;
                             txtCajas.setText("1");
-                            scan();
+                            scanPesaje();
+                            ok();
                         }
                         if (largo == 3) {
                             bandeja2 = scanContent;
                             Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
                             cantidadBandejas = 2;
                             txtCajas.setText("2");
-                            scan();
+                            scanPesaje();
+                            ok();
                         }
                         if (largo == 4) {
                             bandeja3 = scanContent;
                             Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
                             cantidadBandejas = 3;
                             txtCajas.setText("3");
-                            scan();
+                            scanPesaje();
+                            ok();
                         }
                         if (largo == 5) {
                             bandeja4 = scanContent;
                             Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
                             cantidadBandejas = 4;
                             txtCajas.setText("4");
+                            ok();
                         }
                     } else {
                         if (largo < 5) {
                             Toast.makeText(this, "Código ya leido!", Toast.LENGTH_SHORT).show();
-                            scan();
+                            scanPesaje();
                             error();
                         }
                     }
                 }
-            } else if (qr.getTipoQR().equals("consulta")) {
-                //hacer la conzulta
-                String qrTrabajador = scanContent;
-                txtTrabajadorConsulta.setText(qrTrabajador);
-                ok();
-            }
+            } else {
+                if (qr.getTipoQR().equals("consulta")) {
+                    //comprobar si existe
+                    if (gestionTrabajador.existe(scanContent)) {
+                        //consulta al server
 
+                        String[] splitHistorico = gestionTrabajador.resumenHistorico(scanContent, gestionTablaVista.lastMapeo()).split("-");
+                        String[] splitDia = gestionTrabajador.resumenDia(scanContent, gestionTablaVista.lastMapeo()).split("-");
+                        txtTrabajadorConsulta.setText(splitHistorico[0]);
+                        if (!splitDia[0].equals("S/D")) {
+                            txtBandejasDia.setText(formatter2.format(Double.parseDouble(splitDia[0])));
+                        } else txtBandejasDia.setText(splitDia[0]);
+                        if (!splitDia[1].equals("S/D")) {
+                            txtKilosDia.setText(formatter.format(Double.parseDouble(splitDia[1])));
+                        } else txtKilosDia.setText(splitDia[1]);
+                        if (!splitHistorico[1].equals("S/D")) {
+                            txtBandejasTotal.setText(formatter2.format(Double.parseDouble(splitHistorico[1])));
+                        } else txtBandejasTotal.setText(splitHistorico[1]);
+                        if (!splitHistorico[2].equals("S/D")) {
+                            txtKilosTotal.setText(formatter.format(Double.parseDouble(splitHistorico[2])));
+                        } else txtKilosTotal.setText(splitHistorico[2]);
+                        pop();
+                    } else {
+                        Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
+                        error();
+                    }
+                } else {
+                    //código de scan pesador (LoginPesador)
+                }
+            }
             scanContent = null;
-            onResume();
         } else {
             Toast.makeText(this, "No se escanearon datos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void insertPesaje(View view) {
-        if (!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("")) {
+    public void insertPesaje(final View view) {
+        if (!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("") && !txtKL.getText().toString().equals("S/D")) {
             final String id_tara = spinTara.getSelectedItem().toString().substring(0, 2).replace(" ", "");
             Tara tara = gestionTara.selectLocal(id_tara);
             final Pesaje pesaje = new Pesaje();
@@ -414,7 +466,7 @@ public class MainActivity extends Activity {
             //pesaje.setQRenvase();
             pesaje.setRutTrabajador(txtTrabajador.getText().toString());
             //rut pesador se debe escanear al iniciar
-            pesaje.setRutPesador("s/d");
+            pesaje.setRutPesador(pesador);
             pesaje.setFundo(fundo);
             pesaje.setPotrero(potrero);
             pesaje.setSector(sector);
@@ -439,7 +491,7 @@ public class MainActivity extends Activity {
 
             pesaje.setFechaHora(fecha + " " + hora);
             // PESO SE DEBE RESTAR TARA
-            pesaje.setPesoNeto((Double.parseDouble(txtKL.getText().toString()) / cantidadBandejas) - tara.getPeso());
+            pesaje.setPesoNeto(Double.parseDouble(formatter.format((Double.parseDouble(txtKL.getText().toString()) / cantidadBandejas) - tara.getPeso())));
             pesaje.setTara(tara.getPeso());
             pesaje.setFormato(tara.getFormato());
             pesaje.setTotalCantidad(1);
@@ -482,6 +534,7 @@ public class MainActivity extends Activity {
                                     gestionPesaje.insertLocalSync(pesaje4);
                                 }
                                 Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
+                                clear(view);
                                 pop();
                                 System.out.println(".........LISTA SYNC....." + gestionPesaje.selectLocalSync().toString());
                             }
@@ -498,17 +551,25 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void scan() {
+    public void scanPesaje() {
         if (largo < 5) {
             qrIntent("pesaje", "Escanear códigos QR");
         }
     }
 
-    public void consultarButton(View view) {
-        qrIntent("consulta", "Consultar por código QR de Trabajador");
+    public void scanConsulta(View view) {
+        if (sync.conectado(this)) {
+            qrIntent("consulta", "Consultar por código QR de Trabajador");
+        } else {
+            Toast.makeText(context, "No hay conexión a Internet, imposible realizar consulta", Toast.LENGTH_LONG).show();
+        }
     }
 
-    public void qrIntent(String tipo, String titulo){
+    //public void scanPesador() {
+    //    qrIntent("pesador", "Escanear código de Pesador");
+    //}
+
+    public void qrIntent(String tipo, String titulo) {
         QR qr = QR.getInstance();
         qr.setTipoQR(tipo);
         IntentIntegrator scanIntegrator = new IntentIntegrator(MainActivity.this);
@@ -574,5 +635,20 @@ public class MainActivity extends Activity {
 
     void stopSyncAuto() {
         mHandler.removeCallbacks(mHandlerTask);
+    }
+
+    //doble back para salir
+    private static final int INTERVALO = 2000; //2 segundos para salir
+    private long tiempoPrimerClick;
+
+    @Override
+    public void onBackPressed() {
+        if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
+            super.onBackPressed();
+            return;
+        } else {
+            Toast.makeText(this, "Vuelva a presionar para salir", Toast.LENGTH_SHORT).show();
+        }
+        tiempoPrimerClick = System.currentTimeMillis();
     }
 }
