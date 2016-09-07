@@ -263,7 +263,7 @@ public class MainActivity extends Activity {
         ArrayAdapter adapterTara = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTara.selectTaraSpinner());
         spinTara.setAdapter(adapterTara);
 
-        //startSyncAuto();
+        startSyncAuto();
     }
 
     @Override
@@ -371,6 +371,7 @@ public class MainActivity extends Activity {
                                 txtTrabajador.setText(scanContent);
                                 Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 0;
+                                scanPesaje();
                                 ok();
                             } else {
                                 Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
@@ -382,35 +383,72 @@ public class MainActivity extends Activity {
                             }
                         }
                         if (largo == 2) {
-                            bandeja1 = scanContent;
-                            Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
-                            cantidadBandejas = 1;
-                            txtCajas.setText("1");
-                            scanPesaje();
-                            ok();
+                            if (scanContent.startsWith("ENV")) {
+                                bandeja1 = scanContent;
+                                Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 1;
+                                txtCajas.setText("1");
+                                scanPesaje();
+                                ok();
+                            } else {
+                                Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 0;
+                                largo -= 1;
+                                lista.remove(scanContent);
+                                scanPesaje();
+                                error();
+                            }
                         }
                         if (largo == 3) {
-                            bandeja2 = scanContent;
-                            Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
-                            cantidadBandejas = 2;
-                            txtCajas.setText("2");
-                            scanPesaje();
-                            ok();
+                            if (scanContent.startsWith("ENV")) {
+                                bandeja2 = scanContent;
+                                Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 2;
+                                txtCajas.setText("2");
+                                scanPesaje();
+                                ok();
+                            } else {
+                                Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 1;
+                                largo -= 1;
+                                lista.remove(scanContent);
+                                scanPesaje();
+                                error();
+                            }
+
                         }
                         if (largo == 4) {
-                            bandeja3 = scanContent;
-                            Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
-                            cantidadBandejas = 3;
-                            txtCajas.setText("3");
-                            scanPesaje();
-                            ok();
+                            if (scanContent.startsWith("ENV")) {
+                                bandeja3 = scanContent;
+                                Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 3;
+                                txtCajas.setText("3");
+                                scanPesaje();
+                                ok();
+                            } else {
+                                Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 2;
+                                largo -= 1;
+                                lista.remove(scanContent);
+                                scanPesaje();
+                                error();
+                            }
                         }
                         if (largo == 5) {
-                            bandeja4 = scanContent;
-                            Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
-                            cantidadBandejas = 4;
-                            txtCajas.setText("4");
-                            ok();
+                            if (scanContent.startsWith("ENV")) {
+                                bandeja4 = scanContent;
+                                Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 4;
+                                txtCajas.setText("4");
+                                ok();
+                            } else {
+                                Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 3;
+                                largo -= 1;
+                                lista.remove(scanContent);
+                                scanPesaje();
+                                error();
+                            }
                         }
                     } else {
                         if (largo < 5) {
@@ -448,9 +486,12 @@ public class MainActivity extends Activity {
                 }
             }
             scanContent = null;
-        } else {
+        } else
+
+        {
             Toast.makeText(this, "No se escanearon datos", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     public void insertPesaje(final View view) {
@@ -614,7 +655,7 @@ public class MainActivity extends Activity {
         sync.eventoSyncPesaje(view.getContext(), false);
     }
 
-    private final static int INTERVAL = 1000 * 60 * 10; //10 minutes
+    private final static int INTERVAL = 1000 * 60 * 10; //  1000 * 60 * 10 = 10 minutes
     Handler mHandler = new Handler();
     Runnable mHandlerTask = new Runnable() {
         @Override
@@ -647,5 +688,11 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "Vuelva a presionar para salir", Toast.LENGTH_SHORT).show();
         }
         tiempoPrimerClick = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sync.eventoSyncPesaje(context, false);
     }
 }

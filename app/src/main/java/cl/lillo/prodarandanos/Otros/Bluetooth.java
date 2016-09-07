@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -359,5 +360,4 @@ public class Bluetooth {
             }
         }
     }
-
 }

@@ -135,7 +135,7 @@ public class Sync {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            System.out.println(result);
+            System.out.println("------------------->SYNC PESAJE:" + result);
         }
     }
 
