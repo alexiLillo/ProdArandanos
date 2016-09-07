@@ -371,7 +371,6 @@ public class MainActivity extends Activity {
                                 txtTrabajador.setText(scanContent);
                                 Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 0;
-                                scanPesaje();
                                 ok();
                             } else {
                                 Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
@@ -445,10 +444,7 @@ public class MainActivity extends Activity {
                         pop();
                     } else {
                         Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
-                        error();
                     }
-                } else {
-                    //código de scan pesador (LoginPesador)
                 }
             }
             scanContent = null;
@@ -490,7 +486,7 @@ public class MainActivity extends Activity {
             String hora = hour + ":" + min;
 
             pesaje.setFechaHora(fecha + " " + hora);
-            // PESO SE DEBE RESTAR TARA
+            // PESO SE DEBE RESTAR TARA (PESO NETO DE UNA SOLA BANDEJA)
             pesaje.setPesoNeto(Double.parseDouble(formatter.format((Double.parseDouble(txtKL.getText().toString()) / cantidadBandejas) - tara.getPeso())));
             pesaje.setTara(tara.getPeso());
             pesaje.setFormato(tara.getFormato());
@@ -501,9 +497,9 @@ public class MainActivity extends Activity {
             pesaje.setID_Map(gestionTablaVista.lastMapeo());
 
             new AlertDialog.Builder(this)
-                    .setTitle("Guardar pesaje?")
+                    .setTitle("¿Guardar pesaje?")
                     .setCancelable(true)
-                    .setMessage("Trabajador: " + txtTrabajador.getText().toString() + "\nBandejas: " + cantidadBandejas + "\nPeso Bruto: " + txtKL.getText().toString() + "\nPeso Neto: " + String.valueOf(Double.parseDouble(txtKL.getText().toString()) - (tara.getPeso() * cantidadBandejas)))
+                    .setMessage("Trabajador: " + txtTrabajador.getText().toString() + "\nBandejas: " + cantidadBandejas + "\nPeso Bruto: " + txtKL.getText().toString() + "\nPeso Neto: " + String.valueOf(formatter.format(Double.parseDouble(txtKL.getText().toString()) - (tara.getPeso() * cantidadBandejas))))
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if (cantidadBandejas == 0) {
@@ -623,6 +619,7 @@ public class MainActivity extends Activity {
     Runnable mHandlerTask = new Runnable() {
         @Override
         public void run() {
+            bluetooth.onResume();
             sync.eventoSyncPesaje(context, false);
             System.out.println(".........SINCRONIZA PESAJE..........");
             mHandler.postDelayed(mHandlerTask, INTERVAL);
