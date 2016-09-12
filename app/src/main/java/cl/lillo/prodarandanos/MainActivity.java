@@ -276,7 +276,7 @@ public class MainActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
-        bluetooth.onPause();
+        //bluetooth.onPause();
         System.out.println("........................onPause Main............................");
     }
 
@@ -649,6 +649,12 @@ public class MainActivity extends Activity {
     //SINCRONIZACION
     public void syncCompleta(View view) {
         sync.eventoSyncAll(view.getContext(), true);
+
+        ArrayAdapter adapterTara = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTara.selectTaraSpinner());
+        spinTara.setAdapter(adapterTara);
+
+        ArrayAdapter adapterF = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectFundo());
+        spinFundo.setAdapter(adapterF);
     }
 
     public void syncPesaje(View view) {

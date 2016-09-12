@@ -623,7 +623,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Kilos: "
+                                android:text="Kilos Neto: "
                                 android:textSize="18sp" />
 
                             <TextView
@@ -671,7 +671,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Kilos: "
+                                android:text="Kilos Neto: "
                                 android:textSize="18sp" />
 
                             <TextView
