@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
     private Object[] listaFinal = new Object[0];
     private int largo;
     private String bandeja1, bandeja2, bandeja3, bandeja4;
-    private int cantidadBandejas;
+    private int cantidadBandejas = 0;
 
     //Gestiones
     private Sync sync;
@@ -495,7 +495,7 @@ public class MainActivity extends Activity {
     }
 
     public void insertPesaje(final View view) {
-        if (!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("") && !txtKL.getText().toString().equals("S/D")) {
+        if (!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("") && cantidadBandejas != 0  && !txtKL.getText().toString().equals("S/D")) {
             final String id_tara = spinTara.getSelectedItem().toString().substring(0, 2).replace(" ", "");
             Tara tara = gestionTara.selectLocal(id_tara);
             final Pesaje pesaje = new Pesaje();
@@ -537,55 +537,65 @@ public class MainActivity extends Activity {
             pesaje.setLectura_SVAL("");
             pesaje.setID_Map(gestionTablaVista.lastMapeo());
 
-            new AlertDialog.Builder(this)
-                    .setTitle("¿Guardar pesaje?")
-                    .setCancelable(true)
-                    .setMessage("Trabajador: " + txtTrabajador.getText().toString() + "\nBandejas: " + cantidadBandejas + "\nPeso Bruto: " + txtKL.getText().toString() + "\nPeso Neto: " + String.valueOf(formatter.format(Double.parseDouble(txtKL.getText().toString()) - (tara.getPeso() * cantidadBandejas))))
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (cantidadBandejas == 0) {
-                                Toast.makeText(MainActivity.this, "No se escanearon bandejas!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                if (cantidadBandejas >= 1) {
-                                    Pesaje pesaje1 = pesaje;
-                                    pesaje1.setQRenvase(bandeja1);
-                                    gestionPesaje.insertLocal(pesaje1);
-                                    gestionPesaje.insertLocalSync(pesaje1);
+            if (pesaje.getPesoNeto() < 1.5 || pesaje.getPesoNeto() > 2.5) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Pesaje erróneo!")
+                        .setMessage("Vuelva a verificar bandejas")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which) {  } }).show();
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle("¿Guardar pesaje?")
+                        .setCancelable(true)
+                        .setMessage("Trabajador: " + txtTrabajador.getText().toString() + "\nBandejas: " + cantidadBandejas + "\nPeso Bruto: " + txtKL.getText().toString() + "\nPeso Neto: " + String.valueOf(formatter.format(Double.parseDouble(txtKL.getText().toString()) - (tara.getPeso() * cantidadBandejas))))
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (cantidadBandejas == 0) {
+                                    Toast.makeText(MainActivity.this, "No se escanearon bandejas!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if (cantidadBandejas >= 1) {
+                                        Pesaje pesaje1 = pesaje;
+                                        pesaje1.setQRenvase(bandeja1);
+                                        gestionPesaje.insertLocal(pesaje1);
+                                        gestionPesaje.insertLocalSync(pesaje1);
+                                    }
+                                    if (cantidadBandejas >= 2) {
+                                        Pesaje pesaje2 = pesaje;
+                                        pesaje2.setQRenvase(bandeja2);
+                                        gestionPesaje.insertLocal(pesaje2);
+                                        gestionPesaje.insertLocalSync(pesaje2);
+                                    }
+                                    if (cantidadBandejas >= 3) {
+                                        Pesaje pesaje3 = pesaje;
+                                        pesaje3.setQRenvase(bandeja3);
+                                        gestionPesaje.insertLocal(pesaje3);
+                                        gestionPesaje.insertLocalSync(pesaje3);
+                                    }
+                                    if (cantidadBandejas >= 4) {
+                                        Pesaje pesaje4 = pesaje;
+                                        pesaje4.setQRenvase(bandeja4);
+                                        gestionPesaje.insertLocal(pesaje4);
+                                        gestionPesaje.insertLocalSync(pesaje4);
+                                    }
+                                    Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
+                                    clear(view);
+                                    pop();
+                                    cantidadBandejas = 0;
+                                    System.out.println(".........LISTA SYNC....." + gestionPesaje.selectLocalSync().toString());
                                 }
-                                if (cantidadBandejas >= 2) {
-                                    Pesaje pesaje2 = pesaje;
-                                    pesaje2.setQRenvase(bandeja2);
-                                    gestionPesaje.insertLocal(pesaje2);
-                                    gestionPesaje.insertLocalSync(pesaje2);
-                                }
-                                if (cantidadBandejas >= 3) {
-                                    Pesaje pesaje3 = pesaje;
-                                    pesaje3.setQRenvase(bandeja3);
-                                    gestionPesaje.insertLocal(pesaje3);
-                                    gestionPesaje.insertLocalSync(pesaje3);
-                                }
-                                if (cantidadBandejas >= 4) {
-                                    Pesaje pesaje4 = pesaje;
-                                    pesaje4.setQRenvase(bandeja4);
-                                    gestionPesaje.insertLocal(pesaje4);
-                                    gestionPesaje.insertLocalSync(pesaje4);
-                                }
-                                Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
-                                clear(view);
-                                pop();
-                                System.out.println(".........LISTA SYNC....." + gestionPesaje.selectLocalSync().toString());
+
                             }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    })
-                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    }).show();
+                            }
+                        }).show();
+            }
         } else {
-            Toast.makeText(MainActivity.this, "Seleccione todos los campos!", Toast.LENGTH_SHORT).show();
-        }
+            new AlertDialog.Builder(this)
+                    .setTitle("Atención!")
+                    .setMessage("Complete todos los campos antes de ingresar pesaje")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which) {  } }).show();        }
     }
 
     public void scanPesaje() {
