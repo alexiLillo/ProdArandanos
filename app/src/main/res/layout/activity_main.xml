@@ -45,6 +45,25 @@
                         android:textSize="25sp" />
 
                     <LinearLayout
+                        android:layout_marginTop="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ultima sincronización: "/>
+
+                        <TextView
+                            android:id="@+id/txtLastSync"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="S/D"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -481,7 +500,7 @@
                         android:background="@color/colorPrimary"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="Sincronización"
+                        android:text="Sincronización completa"
                         android:textColor="#fff"
                         android:textSize="25sp" />
 
@@ -514,10 +533,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ultima sincronización: " />
+                                android:text="Ultima sincronización compelta: " />
 
                             <TextView
-                                android:id="@+id/txtLastSync"
+                                android:id="@+id/txtLastSyncCompleta"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="S/D" />

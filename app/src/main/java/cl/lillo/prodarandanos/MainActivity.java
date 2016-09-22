@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
     private String variedad = "";
     private String pesador = "";
 
-    private TextView txtKL, txtTrabajador, txtCajas, txtTrabajadorConsulta, txtBandejasDia, txtKilosDia, txtBandejasTotal, txtKilosTotal;
+    private TextView txtKL, txtTrabajador, txtCajas, txtTrabajadorConsulta, txtBandejasDia, txtKilosDia, txtBandejasTotal, txtKilosTotal, txtLastSync, txtLastSyncCompleta;
 
     private EditText txtRut;
 
@@ -99,6 +99,8 @@ public class MainActivity extends Activity {
         txtKilosDia = (TextView) findViewById(R.id.txtKilosDia);
         txtBandejasTotal = (TextView) findViewById(R.id.txtBandejasTotal);
         txtKilosTotal = (TextView) findViewById(R.id.txtKilosTotal);
+        txtLastSync = (TextView) findViewById(R.id.txtLastSync);
+        txtLastSyncCompleta = (TextView) findViewById(R.id.txtLastSyncCompleta);
 
         gestionTablaVista = new GestionTablaVista(this);
         gestionPesaje = new GestionPesaje(this);
@@ -495,7 +497,7 @@ public class MainActivity extends Activity {
     }
 
     public void insertPesaje(final View view) {
-        if (!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("") && cantidadBandejas != 0  && !txtKL.getText().toString().equals("S/D")) {
+        if (!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("") && cantidadBandejas != 0 && !txtKL.getText().toString().equals("S/D")) {
             final String id_tara = spinTara.getSelectedItem().toString().substring(0, 2).replace(" ", "");
             Tara tara = gestionTara.selectLocal(id_tara);
             final Pesaje pesaje = new Pesaje();
@@ -523,10 +525,16 @@ public class MainActivity extends Activity {
                 mes = "0" + mes;
             String fecha = dia + "/" + mes + "/" + year;
             int hour = c.get(Calendar.HOUR_OF_DAY);
+            String hora = "" + hour;
             int min = c.get(Calendar.MINUTE);
-            String hora = hour + ":" + min;
+            String minu = "" + min;
+            if (hour < 10)
+                hora = "0" + hour;
+            if (min < 10)
+                minu = "0" + min;
+            String horario = hora + ":" + minu;
 
-            pesaje.setFechaHora(fecha + " " + hora);
+            pesaje.setFechaHora(fecha + " " + horario);
             // PESO SE DEBE RESTAR TARA (PESO NETO DE UNA SOLA BANDEJA)
             pesaje.setPesoNeto(Double.parseDouble(formatter.format((Double.parseDouble(txtKL.getText().toString()) / cantidadBandejas) - tara.getPeso())));
             pesaje.setTara(tara.getPeso());
@@ -541,7 +549,10 @@ public class MainActivity extends Activity {
                 new AlertDialog.Builder(this)
                         .setTitle("Pesaje erróneo!")
                         .setMessage("Vuelva a verificar bandejas")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which) {  } }).show();
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
             } else {
                 new AlertDialog.Builder(this)
                         .setTitle("¿Guardar pesaje?")
@@ -595,7 +606,11 @@ public class MainActivity extends Activity {
             new AlertDialog.Builder(this)
                     .setTitle("Atención!")
                     .setMessage("Complete todos los campos antes de ingresar pesaje")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which) {  } }).show();        }
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
+        }
     }
 
     public void scanPesaje() {
@@ -656,9 +671,38 @@ public class MainActivity extends Activity {
         lista.clear();
     }
 
+    //FECHA ACTUAL
+    public String getHoraActual() {
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        String dia = "" + day;
+        int month = c.get(Calendar.MONTH) + 1;
+        String mes = "" + month;
+        int year = c.get(Calendar.YEAR);
+        if (day < 10)
+            dia = "0" + day;
+        if (month < 10)
+            mes = "0" + mes;
+        String fecha = dia + "/" + mes + "/" + year;
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        String hora = "" + hour;
+        int min = c.get(Calendar.MINUTE);
+        String minu = "" + min;
+        if (hour < 10)
+            hora = "0" + hour;
+        if (min < 10)
+            minu = "0" + min;
+        String horario = hora + ":" + minu;
+
+        return horario;
+    }
+
     //SINCRONIZACION
     public void syncCompleta(View view) {
-        sync.eventoSyncAll(view.getContext(), true);
+        if (sync.eventoSyncAll(view.getContext(), true)) {
+            txtLastSync.setText(getHoraActual());
+            txtLastSyncCompleta.setText(getHoraActual());
+        }
 
         ArrayAdapter adapterTara = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTara.selectTaraSpinner());
         spinTara.setAdapter(adapterTara);
@@ -677,7 +721,8 @@ public class MainActivity extends Activity {
         @Override
         public void run() {
             bluetooth.onResume();
-            sync.eventoSyncPesaje(context, false);
+            if (sync.eventoSyncPesaje(context, false))
+                txtLastSync.setText(getHoraActual());
             System.out.println(".........SINCRONIZA PESAJE..........");
             mHandler.postDelayed(mHandlerTask, INTERVAL);
         }

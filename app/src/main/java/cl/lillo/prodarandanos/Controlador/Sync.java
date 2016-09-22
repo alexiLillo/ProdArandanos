@@ -55,14 +55,16 @@ public class Sync {
         }
     }
 
-    public void eventoSyncAll(Context context, boolean syncCompleta) {
+    public boolean eventoSyncAll(Context context, boolean syncCompleta) {
         //llamar servicio que sincroniza "bajo cuerda"
         if (conectado(context)) {
             ProgressDialog progress = new ProgressDialog(context);
             progress.setMessage("Sincronizando, por favor espere...");
             new ServicioCompleto(progress, syncCompleta, context).execute();
+            return true;
         } else {
             Toast.makeText(context, "Atención! No hay conexión a Internet", Toast.LENGTH_LONG).show();
+            return false;
         }
     }
 
@@ -99,12 +101,14 @@ public class Sync {
         }
     }
 
-    public void eventoSyncPesaje(Context context, boolean syncCompleta) {
+    public boolean eventoSyncPesaje(Context context, boolean syncCompleta) {
         //llamar servicio que sincroniza "bajo cuerda"
         if (conectado(context)) {
             new ServicioPesaje(syncCompleta, context).execute();
+            return true;
         } else {
             //Toast.makeText(view.getContext(), "Atención! No hay conexión a Internet", Toast.LENGTH_LONG).show();
+            return false;
         }
     }
 
