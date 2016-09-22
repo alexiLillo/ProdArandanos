@@ -54,7 +54,7 @@ public class LoginPesador extends Activity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(this, "Pesador no registrado!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Código incorrecto!", Toast.LENGTH_SHORT).show();
                     error();
                     escanear();
                 }
