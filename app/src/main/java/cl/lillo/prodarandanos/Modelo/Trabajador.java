@@ -13,6 +13,9 @@ public class Trabajador {
     private String Apellido;
     private String QRrut;
     private String FechaNacimiento;
+    private String FechaIngreso;
+    private int Ficha;
+    private String Importado;
 
     //constructor
     public Trabajador() {
@@ -57,6 +60,30 @@ public class Trabajador {
 
     public void setFechaNacimiento(String fechaNacimiento) {
         FechaNacimiento = fechaNacimiento;
+    }
+
+    public String getFechaIngreso() {
+        return FechaIngreso;
+    }
+
+    public void setFechaIngreso(String fechaIngreso) {
+        FechaIngreso = fechaIngreso;
+    }
+
+    public int getFicha() {
+        return Ficha;
+    }
+
+    public void setFicha(int ficha) {
+        Ficha = ficha;
+    }
+
+    public String getImportado() {
+        return Importado;
+    }
+
+    public void setImportado(String importado) {
+        Importado = importado;
     }
 
     //auto-instancia (creo)

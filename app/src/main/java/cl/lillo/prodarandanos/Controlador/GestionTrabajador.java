@@ -40,6 +40,9 @@ public class GestionTrabajador {
             cv.put("Apellido", trabajador.getApellido());
             cv.put("QRrut", trabajador.getQRrut());
             cv.put("FechaNacimiento", trabajador.getFechaNacimiento());
+            cv.put("FechaIngreso", trabajador.getFechaIngreso());
+            cv.put("Ficha", trabajador.getFicha());
+            cv.put("Importado", trabajador.getImportado());
             data.insertWithOnConflict("Trabajador", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
             data.close();
             return true;
@@ -78,6 +81,9 @@ public class GestionTrabajador {
                     trabajador.setApellido(rs.getString("Apellido"));
                     trabajador.setQRrut(rs.getString("QRrut"));
                     trabajador.setFechaNacimiento(rs.getString("FechaNacimiento"));
+                    trabajador.setFechaIngreso(rs.getString("FechaIngreso"));
+                    trabajador.setFicha(rs.getInt("Ficha"));
+                    trabajador.setImportado(rs.getString("Importado"));
                     insertLocal(trabajador);
                 }
                 con.close();
