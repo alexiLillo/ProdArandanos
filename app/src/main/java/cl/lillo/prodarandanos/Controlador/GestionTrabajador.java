@@ -133,7 +133,7 @@ public class GestionTrabajador {
                 return nombre + "-" + bandejasTotal + "-" + kilosTotal;
             } else {
                 //Consulta SQL
-                String query = "Select Nombre, Apellido, PesoNeto, Cantidad from VistaConsulta where RutTrabajador = '" + rut + "' and ID_Map =" + mapeo + " and Anio = '" + año +"' ";
+                String query = "Select Nombre, Apellido, PesoNeto, Cantidad from VistaConsulta where RutTrabajador = '" + rut + "' and ID_Map =" + mapeo + " and Anio = '" + año +"' and Mes = '" + mes + "' ";
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {

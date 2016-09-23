@@ -659,7 +659,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:layout_marginTop="16dp"
-                            android:text="Resumen historico:"
+                            android:text="Resumen mensual:"
                             android:textSize="20sp" />
 
                         <LinearLayout
