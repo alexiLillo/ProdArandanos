@@ -126,6 +126,7 @@ public class Bluetooth {
                             //System.out.println(txtKL);
                             updateTV(txtKL);
                         } catch (Exception e) {
+                            Log.w(TAG, "...Error en Handler Bluetooth: " + e.getMessage());
                             e.printStackTrace();
                         }
                         break;

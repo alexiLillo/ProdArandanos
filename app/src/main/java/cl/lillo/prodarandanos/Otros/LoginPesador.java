@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -29,6 +30,8 @@ public class LoginPesador extends Activity {
     String scanContent;
     String scanFormat;
     private GestionTrabajador gestionTrabajador;
+    private static final String TAG = "LoginPesador";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,7 +184,9 @@ public class LoginPesador extends Activity {
             }
 
         } catch (java.lang.NumberFormatException e) {
+            Log.w(TAG, "...Error number format validar rut: " + e.getMessage());
         } catch (Exception e) {
+            Log.w(TAG, "...Error exception validar rut: " + e.getMessage());
         }
         return validacion;
     }

@@ -163,5 +163,4 @@ public class GestionPesaje {
         }
         return true;
     }
-
 }

@@ -23,8 +23,6 @@ public class Sync {
 
     public String sync(boolean syncCompleta, Context context) {
         try {
-
-
             if (syncCompleta) {
                 //instancia
                 gestionPesaje = new GestionPesaje(context);
