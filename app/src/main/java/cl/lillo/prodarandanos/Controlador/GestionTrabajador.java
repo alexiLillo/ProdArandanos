@@ -9,7 +9,9 @@ import android.util.Log;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLServer;
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLite;
@@ -188,4 +190,49 @@ public class GestionTrabajador {
 
         return bandejasDia + "-" + kilosDia;
     }
+
+    public String getServerDate() {
+        String fecha = "S/D";
+        try {
+            Connection con = helperSQLServer.CONN();
+            if (con == null) {
+                return fecha;
+            } else {
+                //Consulta SQL
+                String query = "Select GETDATE() as fecha";
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    fecha = new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("fecha"));
+                }
+            }
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al traer Fecha del servidor: " + ex.getMessage());
+            return fecha;
+        }
+        return fecha;
+    }
+
+    public String getServerTime() {
+        String fecha = "S/D";
+        try {
+            Connection con = helperSQLServer.CONN();
+            if (con == null) {
+                return fecha;
+            } else {
+                //Consulta SQL
+                String query = "Select GETDATE() as fecha";
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    fecha = new SimpleDateFormat("HH:mm").format(rs.getTime("fecha"));
+                }
+            }
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al traer Fecha del servidor: " + ex.getMessage());
+            return fecha;
+        }
+        return fecha;
+    }
+
 }

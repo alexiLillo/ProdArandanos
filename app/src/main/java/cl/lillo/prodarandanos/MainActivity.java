@@ -463,9 +463,8 @@ public class MainActivity extends Activity {
             } else {
                 if (qr.getTipoQR().equals("consulta")) {
                     //comprobar si existe
-                    if (gestionTrabajador.existe(scanContent)) {
+                    //if (gestionTrabajador.existe(scanContent)) {
                         //consulta al server
-
                         String[] splitHistorico = gestionTrabajador.resumenHistorico(scanContent, gestionTablaVista.lastMapeo()).split("-");
                         String[] splitDia = gestionTrabajador.resumenDia(scanContent, gestionTablaVista.lastMapeo()).split("-");
                         txtTrabajadorConsulta.setText(splitHistorico[0]);
@@ -485,7 +484,7 @@ public class MainActivity extends Activity {
                     } else {
                         Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
                     }
-                }
+                //}
             }
             scanContent = null;
         } else
