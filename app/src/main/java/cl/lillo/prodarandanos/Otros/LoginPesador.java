@@ -67,20 +67,9 @@ public class LoginPesador extends Activity {
         int diferenciaHoras = horaServer - horaLocal;
         int diferenciaMins = minLocal - minServer;
         if (diferenciaHoras == 0) {
-            if (gestionTrabajador.getServerDate().compareTo(getLocalDate()) == 0 && (diferenciaMins <= 5 && diferenciaMins >= -5)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (diferenciaHoras == 1 || diferenciaHoras == -1) {
-            if (gestionTrabajador.getServerDate().compareTo(getLocalDate()) == 0 && (diferenciaMins >= 55 || diferenciaMins <= -55)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+            return gestionTrabajador.getServerDate().compareTo(getLocalDate()) == 0 && (diferenciaMins <= 5 && diferenciaMins >= -5);
+        } else
+            return (diferenciaHoras == 1 || diferenciaHoras == -1) && gestionTrabajador.getServerDate().compareTo(getLocalDate()) == 0 && (diferenciaMins >= 55 || diferenciaMins <= -55);
     }
 
     public String getLocalDate() {
@@ -128,9 +117,8 @@ public class LoginPesador extends Activity {
             hora = "0" + hour;
         if (min < 10)
             minu = "0" + min;
-        String horario = hora + ":" + minu;
 
-        return horario;
+        return hora + ":" + minu;
     }
 
     public void escanear() {
@@ -149,8 +137,8 @@ public class LoginPesador extends Activity {
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanningResult != null) {
             if (scanningResult.getContents() != null) {
-                scanContent = scanningResult.getContents().toString();
-                scanFormat = scanningResult.getFormatName().toString();
+                scanContent = scanningResult.getContents();
+                scanFormat = scanningResult.getFormatName();
                 if (validarRut(scanContent)) {
                     pop();
                     Intent intent = new Intent(this, MainActivity.class);
@@ -162,7 +150,6 @@ public class LoginPesador extends Activity {
                     error();
                     escanear();
                 }
-
             }
         }
     }
@@ -213,9 +200,9 @@ public class LoginPesador extends Activity {
         ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         // Recupera todas las redes (tanto móviles como wifi)
         NetworkInfo[] redes = connec.getAllNetworkInfo();
-        for (int i = 0; i < redes.length; i++) {
+        for (NetworkInfo rede : redes) {
             // Si alguna red tiene conexión, se devuelve true
-            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+            if (rede.getState() == NetworkInfo.State.CONNECTED) {
                 connected = true;
             }
         }
