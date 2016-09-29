@@ -94,7 +94,7 @@ public class GestionPesaje {
         }
     }
 
-    public ArrayList<Pesaje> selectLocalSync() {
+    private ArrayList<Pesaje> selectLocalSync() {
         ArrayList<Pesaje> listaPesajes = new ArrayList<>();
 
         try {
@@ -129,7 +129,7 @@ public class GestionPesaje {
         return listaPesajes;
     }
 
-    public boolean deleteLocalSync() {
+    boolean deleteLocalSync() {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
             data.delete("PesajeSync", null, null);
@@ -141,7 +141,7 @@ public class GestionPesaje {
         return true;
     }
 
-    public boolean selectLocalInsertServer() {
+    boolean selectLocalInsertServer() {
         ArrayList<Pesaje> listaPesajes = selectLocalSync();
         Iterator iterador = listaPesajes.listIterator();
         while (iterador.hasNext()) {
@@ -172,7 +172,7 @@ public class GestionPesaje {
             SQLiteDatabase data = helper.getReadableDatabase();
             Cursor cursor = data.rawQuery("select FechaHora from Pesaje where RutTrabajador = '" + rut + "' order by FechaHora desc limit 1", null);
             while (cursor.moveToNext()) {
-                if(Date.parse(cursor.getString(0)) > (Date.parse(getDateActual()) - (1000 * 60 * 10)))
+                if (Date.parse(cursor.getString(0)) > (Date.parse(getDateActual()) - (1000 * 60 * 10)))
                     bandera = false;
             }
         } catch (Exception ex) {
@@ -182,7 +182,7 @@ public class GestionPesaje {
         return bandera;
     }
 
-    public String getDateActual() {
+    private String getDateActual() {
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DAY_OF_MONTH);
         String dia = "" + day;

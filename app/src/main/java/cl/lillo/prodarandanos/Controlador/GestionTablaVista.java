@@ -194,7 +194,7 @@ public class GestionTablaVista {
         return lista;
     }
 
-    public int lastMapeo(){
+    public int lastMapeo() {
         int mapeo = 0;
         try {
             SQLiteDatabase data = helper.getReadableDatabase();

@@ -356,8 +356,8 @@ public class MainActivity extends Activity {
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanningResult != null) {
             if (scanningResult.getContents() != null) {
-                scanContent = scanningResult.getContents().toString();
-                scanFormat = scanningResult.getFormatName().toString();
+                scanContent = scanningResult.getContents();
+                scanFormat = scanningResult.getFormatName();
             }
 
             QR qr = QR.getInstance();
@@ -374,13 +374,13 @@ public class MainActivity extends Activity {
                         largo = listaFinal.length;
                         if (largo == 1) {
                             if (gestionTrabajador.existe(scanContent)) {
-                                if(gestionPesaje.puedePesar(scanContent)) {
+                                if (gestionPesaje.puedePesar(scanContent)) {
                                     txtTrabajador.setText(scanContent);
                                     Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
                                     cantidadBandejas = 0;
                                     scanPesaje();
                                     ok();
-                                }else{
+                                } else {
                                     Toast.makeText(this, "Trabajador ya registró pesaje, vuelva a intentarlo mas tarde", Toast.LENGTH_SHORT).show();
                                     lista.clear();
                                     largo = 0;
@@ -753,9 +753,8 @@ public class MainActivity extends Activity {
             hora = "0" + hour;
         if (min < 10)
             minu = "0" + min;
-        String horario = hora + ":" + minu;
 
-        return horario;
+        return hora + ":" + minu;
     }
 
     //SINCRONIZACION

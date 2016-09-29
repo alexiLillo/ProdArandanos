@@ -48,7 +48,7 @@ public class GestionTara {
         }
     }
 
-    public ArrayList<String> selectTaraSpinner(){
+    public ArrayList<String> selectTaraSpinner() {
         ArrayList<String> lista = new ArrayList<>();
         try {
             SQLiteDatabase data = helper.getReadableDatabase();
@@ -66,7 +66,7 @@ public class GestionTara {
         return lista;
     }
 
-    public Tara selectLocal(String id_tara){
+    public Tara selectLocal(String id_tara) {
         Tara tara = new Tara();
         try {
             SQLiteDatabase data = helper.getReadableDatabase();
@@ -78,7 +78,7 @@ public class GestionTara {
                 tara.setFormato(cursor.getString(3));
                 tara.setDescripcion(cursor.getString(4));
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Log.w(TAG, "...Error al seleccionar desde tabla Tara: " + ex.getMessage());
         }
         return tara;
@@ -101,7 +101,7 @@ public class GestionTara {
             Connection con = helperSQLServer.CONN();
             if (con == null) {
                 return false;
-            } else if (deleteLocal()){
+            } else if (deleteLocal()) {
                 //Consulta SQL
                 String query = "select * from Tara";
                 Statement stmt = con.createStatement();
