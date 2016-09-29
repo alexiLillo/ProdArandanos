@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.sql.Date;
 import java.util.Calendar;
 
 import cl.lillo.prodarandanos.Controlador.GestionQRSdia;
@@ -38,7 +39,7 @@ public class LoginPesador extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gestionTrabajador = new GestionTrabajador(this);
-        gestionQRSdia =  new GestionQRSdia(this);
+        gestionQRSdia = new GestionQRSdia(this);
         gestionQRSdia.deleteLocal();
         if (conectado(this)) {
             if (fechaCorrecta()) {
@@ -51,7 +52,8 @@ public class LoginPesador extends Activity {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 0);
-                                System.exit(0);                            }
+                                System.exit(0);
+                            }
                         }).show();
             }
         } else {
@@ -61,18 +63,8 @@ public class LoginPesador extends Activity {
     }
 
     public boolean fechaCorrecta() {
-        String[] split1 = gestionTrabajador.getServerTime().split(":");
-        String[] split2 = getLocalTime().split(":");
-        int horaServer = Integer.parseInt(split1[0]);
-        int horaLocal = Integer.parseInt(split2[0]);
-        int minServer = Integer.parseInt(split1[1]);
-        int minLocal = Integer.parseInt(split2[1]);
-        int diferenciaHoras = horaServer - horaLocal;
-        int diferenciaMins = minLocal - minServer;
-        if (diferenciaHoras == 0) {
-            return gestionTrabajador.getServerDate().compareTo(getLocalDate()) == 0 && (diferenciaMins <= 5 && diferenciaMins >= -5);
-        } else
-            return (diferenciaHoras == 1 || diferenciaHoras == -1) && gestionTrabajador.getServerDate().compareTo(getLocalDate()) == 0 && (diferenciaMins >= 55 || diferenciaMins <= -55);
+        String fechaServer = gestionTrabajador.getServerDate() + " " + gestionTrabajador.getServerTime();
+        return Date.parse(getLocalDate()) <= (Date.parse(fechaServer) + (1000 * 60 * 5)) && Date.parse(getLocalDate()) >= (Date.parse(fechaServer) - (1000 * 60 * 5));
     }
 
     public String getLocalDate() {
@@ -97,7 +89,7 @@ public class LoginPesador extends Activity {
             minu = "0" + min;
         String horario = hora + ":" + minu;
 
-        return fecha;
+        return fecha + " " + horario;
     }
 
     public String getLocalTime() {

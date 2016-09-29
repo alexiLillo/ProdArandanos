@@ -125,6 +125,8 @@ public class MainActivity extends Activity {
         spec.setContent(R.id.linearLayout2);
         spec.setIndicator("", res.getDrawable(R.drawable.card));
         tabs.addTab(spec);
+        //deshabilitar un tab (tab de tarjetas)
+        tabs.getTabWidget().getChildTabViewAt(1).setEnabled(false);
 
         spec = tabs.newTabSpec("mitab3");
         spec.setContent(R.id.linearLayout3);
@@ -372,11 +374,20 @@ public class MainActivity extends Activity {
                         largo = listaFinal.length;
                         if (largo == 1) {
                             if (gestionTrabajador.existe(scanContent)) {
-                                txtTrabajador.setText(scanContent);
-                                Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
-                                cantidadBandejas = 0;
-                                scanPesaje();
-                                ok();
+                                if(gestionPesaje.puedePesar(scanContent)) {
+                                    txtTrabajador.setText(scanContent);
+                                    Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 0;
+                                    scanPesaje();
+                                    ok();
+                                }else{
+                                    Toast.makeText(this, "Trabajador ya registró pesaje, vuelva a intentarlo mas tarde", Toast.LENGTH_SHORT).show();
+                                    lista.clear();
+                                    largo = 0;
+                                    cantidadBandejas = 0;
+                                    scanPesaje();
+                                    error();
+                                }
                             } else {
                                 Toast.makeText(this, "Código de trabajador incorrecto!", Toast.LENGTH_SHORT).show();
                                 lista.clear();
@@ -649,7 +660,6 @@ public class MainActivity extends Activity {
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
                             }
                         }).show();
             }

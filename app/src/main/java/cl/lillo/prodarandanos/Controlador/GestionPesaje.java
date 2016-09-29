@@ -9,6 +9,8 @@ import android.util.Log;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLServer;
@@ -162,5 +164,46 @@ public class GestionPesaje {
             }
         }
         return true;
+    }
+
+    public boolean puedePesar(String rut) {
+        boolean bandera = true;
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select FechaHora from Pesaje where RutTrabajador = '" + rut + "' order by FechaHora desc limit 1", null);
+            while (cursor.moveToNext()) {
+                if(Date.parse(cursor.getString(0)) > (Date.parse(getDateActual()) - (1000 * 60 * 10)))
+                    bandera = false;
+            }
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar pesaje (puede pesar) en el servidor: " + ex.getMessage());
+            return true;
+        }
+        return bandera;
+    }
+
+    public String getDateActual() {
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        String dia = "" + day;
+        int month = c.get(Calendar.MONTH) + 1;
+        String mes = "" + month;
+        int year = c.get(Calendar.YEAR);
+        if (day < 10)
+            dia = "0" + day;
+        if (month < 10)
+            mes = "0" + mes;
+        String fecha = dia + "/" + mes + "/" + year;
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        String hora = "" + hour;
+        int min = c.get(Calendar.MINUTE);
+        String minu = "" + min;
+        if (hour < 10)
+            hora = "0" + hour;
+        if (min < 10)
+            minu = "0" + min;
+        String horario = hora + ":" + minu;
+
+        return fecha + " " + horario;
     }
 }
