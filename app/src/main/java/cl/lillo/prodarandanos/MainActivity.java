@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
     private GestionPesaje gestionPesaje;
     private GestionTara gestionTara;
     private GestionTrabajador gestionTrabajador;
+    private GestionQRSdia gestionQRSdia;
     private Bluetooth bluetooth;
     /**
      * Called when the activity is first created.
@@ -106,6 +107,7 @@ public class MainActivity extends Activity {
         gestionPesaje = new GestionPesaje(this);
         gestionTara = new GestionTara(this);
         gestionTrabajador = new GestionTrabajador(this);
+        gestionQRSdia = new GestionQRSdia(this);
         sync = new Sync();
 
         //TABS
@@ -376,7 +378,7 @@ public class MainActivity extends Activity {
                                 scanPesaje();
                                 ok();
                             } else {
-                                Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Código de trabajador incorrecto!", Toast.LENGTH_SHORT).show();
                                 lista.clear();
                                 largo = 0;
                                 cantidadBandejas = 0;
@@ -452,6 +454,7 @@ public class MainActivity extends Activity {
                                 error();
                             }
                         }
+
                     } else {
                         if (largo < 5) {
                             Toast.makeText(this, "Código ya leido!", Toast.LENGTH_SHORT).show();
@@ -464,26 +467,26 @@ public class MainActivity extends Activity {
                 if (qr.getTipoQR().equals("consulta")) {
                     //comprobar si existe
                     //if (gestionTrabajador.existe(scanContent)) {
-                        //consulta al server
-                        String[] splitHistorico = gestionTrabajador.resumenHistorico(scanContent, gestionTablaVista.lastMapeo()).split("-");
-                        String[] splitDia = gestionTrabajador.resumenDia(scanContent, gestionTablaVista.lastMapeo()).split("-");
-                        txtTrabajadorConsulta.setText(splitHistorico[0]);
-                        if (!splitDia[0].equals("S/D")) {
-                            txtBandejasDia.setText(formatter2.format(Double.parseDouble(splitDia[0])));
-                        } else txtBandejasDia.setText(splitDia[0]);
-                        if (!splitDia[1].equals("S/D")) {
-                            txtKilosDia.setText(formatter.format(Double.parseDouble(splitDia[1])));
-                        } else txtKilosDia.setText(splitDia[1]);
-                        if (!splitHistorico[1].equals("S/D")) {
-                            txtBandejasTotal.setText(formatter2.format(Double.parseDouble(splitHistorico[1])));
-                        } else txtBandejasTotal.setText(splitHistorico[1]);
-                        if (!splitHistorico[2].equals("S/D")) {
-                            txtKilosTotal.setText(formatter.format(Double.parseDouble(splitHistorico[2])));
-                        } else txtKilosTotal.setText(splitHistorico[2]);
-                        pop();
-                    } else {
-                        Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
-                    }
+                    //consulta al server
+                    String[] splitHistorico = gestionTrabajador.resumenHistorico(scanContent, gestionTablaVista.lastMapeo()).split("-");
+                    String[] splitDia = gestionTrabajador.resumenDia(scanContent, gestionTablaVista.lastMapeo()).split("-");
+                    txtTrabajadorConsulta.setText(splitHistorico[0]);
+                    if (!splitDia[0].equals("S/D")) {
+                        txtBandejasDia.setText(formatter2.format(Double.parseDouble(splitDia[0])));
+                    } else txtBandejasDia.setText(splitDia[0]);
+                    if (!splitDia[1].equals("S/D")) {
+                        txtKilosDia.setText(formatter.format(Double.parseDouble(splitDia[1])));
+                    } else txtKilosDia.setText(splitDia[1]);
+                    if (!splitHistorico[1].equals("S/D")) {
+                        txtBandejasTotal.setText(formatter2.format(Double.parseDouble(splitHistorico[1])));
+                    } else txtBandejasTotal.setText(splitHistorico[1]);
+                    if (!splitHistorico[2].equals("S/D")) {
+                        txtKilosTotal.setText(formatter.format(Double.parseDouble(splitHistorico[2])));
+                    } else txtKilosTotal.setText(splitHistorico[2]);
+                    pop();
+                } else {
+                    Toast.makeText(this, "Trabajador no registrado!", Toast.LENGTH_SHORT).show();
+                }
                 //}
             }
             scanContent = null;
@@ -559,40 +562,89 @@ public class MainActivity extends Activity {
                         .setMessage("Trabajador: " + txtTrabajador.getText().toString() + "\nBandejas: " + cantidadBandejas + "\nPeso Bruto: " + txtKL.getText().toString() + "\nPeso Neto: " + String.valueOf(formatter.format(Double.parseDouble(txtKL.getText().toString()) - (tara.getPeso() * cantidadBandejas))))
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                boolean is = false;
                                 if (cantidadBandejas == 0) {
                                     Toast.makeText(MainActivity.this, "No se escanearon bandejas!", Toast.LENGTH_SHORT).show();
                                 } else {
                                     if (cantidadBandejas >= 1) {
-                                        Pesaje pesaje1 = pesaje;
-                                        pesaje1.setQRenvase(bandeja1);
-                                        gestionPesaje.insertLocal(pesaje1);
-                                        gestionPesaje.insertLocalSync(pesaje1);
+                                        if (gestionQRSdia.insertLocal(bandeja1)) {
+                                            Pesaje pesaje1 = pesaje;
+                                            pesaje1.setQRenvase(bandeja1);
+                                            gestionPesaje.insertLocal(pesaje1);
+                                            gestionPesaje.insertLocalSync(pesaje1);
+                                            is = true;
+                                        } else {
+                                            is = false;
+                                            new AlertDialog.Builder(MainActivity.this)
+                                                    .setTitle("Error!")
+                                                    .setMessage("Bandeja n°1, código: " + bandeja1 + "\nYa se registró anteriormente!\nNo se agregará dicha bandeja al sistema.")
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                        }
+                                                    }).show();
+                                        }
                                     }
                                     if (cantidadBandejas >= 2) {
-                                        Pesaje pesaje2 = pesaje;
-                                        pesaje2.setQRenvase(bandeja2);
-                                        gestionPesaje.insertLocal(pesaje2);
-                                        gestionPesaje.insertLocalSync(pesaje2);
+                                        if (gestionQRSdia.insertLocal(bandeja2)) {
+                                            Pesaje pesaje2 = pesaje;
+                                            pesaje2.setQRenvase(bandeja2);
+                                            gestionPesaje.insertLocal(pesaje2);
+                                            gestionPesaje.insertLocalSync(pesaje2);
+                                            is = true;
+                                        } else {
+                                            is = false;
+                                            new AlertDialog.Builder(MainActivity.this)
+                                                    .setTitle("Error!")
+                                                    .setMessage("Bandeja n°2, código: " + bandeja2 + "\nYa se registró anteriormente!\nNo se agregará dicha bandeja al sistema.")
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                        }
+                                                    }).show();
+                                        }
                                     }
                                     if (cantidadBandejas >= 3) {
-                                        Pesaje pesaje3 = pesaje;
-                                        pesaje3.setQRenvase(bandeja3);
-                                        gestionPesaje.insertLocal(pesaje3);
-                                        gestionPesaje.insertLocalSync(pesaje3);
+                                        if (gestionQRSdia.insertLocal(bandeja3)) {
+                                            Pesaje pesaje3 = pesaje;
+                                            pesaje3.setQRenvase(bandeja3);
+                                            gestionPesaje.insertLocal(pesaje3);
+                                            gestionPesaje.insertLocalSync(pesaje3);
+                                            is = true;
+                                        } else {
+                                            is = false;
+                                            new AlertDialog.Builder(MainActivity.this)
+                                                    .setTitle("Error!")
+                                                    .setMessage("Bandeja n°3, código: " + bandeja3 + "\nYa se registró anteriormente!\nNo se agregará dicha bandeja al sistema.")
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                        }
+                                                    }).show();
+                                        }
                                     }
                                     if (cantidadBandejas >= 4) {
-                                        Pesaje pesaje4 = pesaje;
-                                        pesaje4.setQRenvase(bandeja4);
-                                        gestionPesaje.insertLocal(pesaje4);
-                                        gestionPesaje.insertLocalSync(pesaje4);
+                                        if (gestionQRSdia.insertLocal(bandeja4)) {
+                                            Pesaje pesaje4 = pesaje;
+                                            pesaje4.setQRenvase(bandeja4);
+                                            gestionPesaje.insertLocal(pesaje4);
+                                            gestionPesaje.insertLocalSync(pesaje4);
+                                            is = true;
+                                        } else {
+                                            is = false;
+                                            new AlertDialog.Builder(MainActivity.this)
+                                                    .setTitle("Error!")
+                                                    .setMessage("Bandeja n°4, código: " + bandeja4 + "\nYa se registró anteriormente!\nNo se agregará dicha bandeja al sistema.")
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                        }
+                                                    }).show();
+                                        }
                                     }
-                                    Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
+                                    if (is)
+                                        Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
                                     clear(view);
                                     pop();
                                     cantidadBandejas = 0;
-                                    System.out.println(".........LISTA SYNC....." + gestionPesaje.selectLocalSync().toString());
+                                    //System.out.println(".........LISTA SYNC....." + gestionPesaje.selectLocalSync().toString());
                                 }
-
                             }
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

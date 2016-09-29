@@ -19,6 +19,7 @@ import com.google.zxing.integration.android.IntentResult;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import cl.lillo.prodarandanos.Controlador.GestionQRSdia;
 import cl.lillo.prodarandanos.Controlador.GestionTrabajador;
 import cl.lillo.prodarandanos.MainActivity;
 import cl.lillo.prodarandanos.R;
@@ -30,6 +31,7 @@ public class LoginPesador extends Activity {
     String scanContent;
     String scanFormat;
     private GestionTrabajador gestionTrabajador;
+    private GestionQRSdia gestionQRSdia;
     private static final String TAG = "LoginPesador";
 
 
@@ -37,6 +39,8 @@ public class LoginPesador extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gestionTrabajador = new GestionTrabajador(this);
+        gestionQRSdia =  new GestionQRSdia(this);
+        gestionQRSdia.deleteLocal();
         if (conectado(this)) {
             if (fechaCorrecta()) {
                 escanear();
