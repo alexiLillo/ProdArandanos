@@ -476,7 +476,7 @@ public class MainActivity extends Activity {
                 }
             } else {
                 if (qr.getTipoQR().equals("consulta")) {
-                    //comprobar si existe
+                    //comprobar si existe (ya no, por si existe en server pero no local)
                     //if (gestionTrabajador.existe(scanContent)) {
                     //consulta al server
                     String[] splitHistorico = gestionTrabajador.resumenHistorico(scanContent, gestionTablaVista.lastMapeo()).split("-");
