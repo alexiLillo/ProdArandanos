@@ -10,12 +10,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLServer;
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLite;
-import cl.lillo.prodarandanos.Modelo.Pesaje;
 import cl.lillo.prodarandanos.Modelo.TablaVista;
 
 /**
@@ -33,7 +30,7 @@ public class GestionTablaVista {
         helperSQLServer = new ConexionHelperSQLServer();
     }
 
-    public boolean insertLocal(TablaVista tablaVista) {
+    private boolean insertLocal(TablaVista tablaVista) {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
             ContentValues cv = new ContentValues();
@@ -57,7 +54,7 @@ public class GestionTablaVista {
         }
     }
 
-    public boolean deleteLocal() {
+    private boolean deleteLocal() {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
             data.delete("TablaVista", null, null);
@@ -69,7 +66,7 @@ public class GestionTablaVista {
         return true;
     }
 
-    public boolean selectServerInsertLocal() {
+    boolean selectServerInsertLocal() {
         try {
             Connection con = helperSQLServer.CONN();
             if (con == null) {

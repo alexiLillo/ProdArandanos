@@ -1,13 +1,11 @@
 package cl.lillo.prodarandanos.Controlador;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -21,7 +19,7 @@ public class Sync {
     private GestionTara gestionTara;
     private GestionTrabajador gestionTrabajador;
 
-    public String sync(boolean syncCompleta, Context context) {
+    private String sync(boolean syncCompleta, Context context) {
         try {
             if (syncCompleta) {
                 //instancia
@@ -66,14 +64,14 @@ public class Sync {
         }
     }
 
-    public class ServicioCompleto extends AsyncTask<String, Void, String> {
+    private class ServicioCompleto extends AsyncTask<String, Void, String> {
 
         private String msj;
         private boolean syncCompleta;
         private Context context;
         ProgressDialog progress;
 
-        public ServicioCompleto(ProgressDialog progress, boolean syncCompleta, Context context) {
+        ServicioCompleto(ProgressDialog progress, boolean syncCompleta, Context context) {
             this.progress = progress;
             this.syncCompleta = syncCompleta;
             this.context = context;
@@ -110,14 +108,14 @@ public class Sync {
         }
     }
 
-    public class ServicioPesaje extends AsyncTask<String, Void, String> {
+    private class ServicioPesaje extends AsyncTask<String, Void, String> {
 
         private String msj;
         private boolean syncCompleta;
         private Context context;
 
 
-        public ServicioPesaje(boolean syncCompleta, Context context) {
+        ServicioPesaje(boolean syncCompleta, Context context) {
 
             this.syncCompleta = syncCompleta;
             this.context = context;
@@ -146,9 +144,9 @@ public class Sync {
         ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         // Recupera todas las redes (tanto móviles como wifi)
         NetworkInfo[] redes = connec.getAllNetworkInfo();
-        for (int i = 0; i < redes.length; i++) {
+        for (NetworkInfo rede : redes) {
             // Si alguna red tiene conexión, se devuelve true
-            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+            if (rede.getState() == NetworkInfo.State.CONNECTED) {
                 connected = true;
             }
         }

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLServer;
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLite;
-import cl.lillo.prodarandanos.Modelo.TablaVista;
 import cl.lillo.prodarandanos.Modelo.Tara;
 
 /**
@@ -31,7 +30,7 @@ public class GestionTara {
         helperSQLServer = new ConexionHelperSQLServer();
     }
 
-    public boolean insertLocal(Tara tara) {
+    private boolean insertLocal(Tara tara) {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
             ContentValues cv = new ContentValues();
@@ -85,7 +84,7 @@ public class GestionTara {
         return tara;
     }
 
-    public boolean deleteLocal() {
+    private boolean deleteLocal() {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
             data.delete("Tara", null, null);
@@ -97,7 +96,7 @@ public class GestionTara {
         return true;
     }
 
-    public boolean selectServerInsertLocal() {
+    boolean selectServerInsertLocal() {
         try {
             Connection con = helperSQLServer.CONN();
             if (con == null) {

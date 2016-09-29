@@ -12,7 +12,6 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +36,7 @@ public class Bluetooth {
         this.context = (MainActivity) context;
     }
 
-    public void updateTV(final String str1) {
+    private void updateTV(final String str1) {
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -49,9 +48,9 @@ public class Bluetooth {
 
     private static final String TAG = "bluetooth";
 
-    Handler h;
+    private Handler h;
 
-    final int RECIEVE_MESSAGE = 1;        // Status  for Handler
+    private final int RECIEVE_MESSAGE = 1;        // Status  for Handler
     private static BluetoothAdapter btAdapter;
     private BluetoothSocket btSocket;
     private ConnectedThread mConnectedThread;
@@ -75,7 +74,7 @@ public class Bluetooth {
                 switch (msg.what) {
                     case RECIEVE_MESSAGE:                                                   // if receive massage
                         byte[] readBuf = (byte[]) msg.obj;
-                        String str = "";
+                        String str;
                         String[] cadena;
                         str = Arrays.toString(readBuf);  // unica manera
                         cadena = str.split(",");
@@ -140,7 +139,7 @@ public class Bluetooth {
         alert.setTitle("Seleccionar Pesa");
         alert.setMessage("Seleccione la pesa a utilizar, asegurese de que la pesa esté vinculada.");
         final Spinner listaPesas = new Spinner(context);
-        List<String> spinnerArray = new ArrayList<String>();
+        List<String> spinnerArray = new ArrayList<>();
         spinnerArray.add("Pesa 17");
         spinnerArray.add("Pesa 26");
         ArrayAdapter<String> adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, spinnerArray);
@@ -168,7 +167,7 @@ public class Bluetooth {
 
 
     //retorna mac de dispositivo por el nombre.
-    public static String getBluetoothMacAddress() {
+    private static String getBluetoothMacAddress() {
 
         if (btAdapter == null) {
             Log.d(TAG, "device does not support bluetooth");
@@ -179,14 +178,14 @@ public class Bluetooth {
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
         for (BluetoothDevice device : pairedDevices) {
             // here you get the mac using device.getAddress()
-            if (device.getName().toString().startsWith("HUBCROP")) {
+            if (device.getName().startsWith("HUBCROP")) {
                 mac = device.getAddress();
             }
         }
         return mac;
     }
 
-    public int converter(int libra) {
+    private int converter(int libra) {
         if (libra >= 16 && libra <= 25) {
             libra -= 6;
         }
@@ -220,7 +219,8 @@ public class Bluetooth {
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         if (Build.VERSION.SDK_INT >= 10) {
             try {
-                final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", new Class[]{UUID.class});
+                //final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", new Class[]{UUID.class});
+                final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", UUID.class);
                 return (BluetoothSocket) m.invoke(device, MY_UUID);
             } catch (Exception e) {
                 Log.e(TAG, "Could not create Insecure RFComm Connection", e);
@@ -289,7 +289,7 @@ public class Bluetooth {
         }
     }
 
-    public boolean checkBTState() {
+    private boolean checkBTState() {
         // Check for Bluetooth support and then check to make sure it is turned on
         // Emulator doesn't support Bluetooth and will return null
         if (btAdapter == null) {
@@ -318,7 +318,7 @@ public class Bluetooth {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
 
-        public ConnectedThread(BluetoothSocket socket) {
+        ConnectedThread(BluetoothSocket socket) {
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
 
@@ -328,6 +328,7 @@ public class Bluetooth {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
+                Log.w(TAG, "IOException en connectedthread: " + e.toString());
             }
 
             mmInStream = tmpIn;

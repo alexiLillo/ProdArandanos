@@ -11,11 +11,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLServer;
 import cl.lillo.prodarandanos.Modelo.ConexionHelperSQLite;
-import cl.lillo.prodarandanos.Modelo.Tara;
 import cl.lillo.prodarandanos.Modelo.Trabajador;
 
 /**
@@ -33,7 +31,7 @@ public class GestionTrabajador {
         helperSQLServer = new ConexionHelperSQLServer();
     }
 
-    public boolean insertLocal(Trabajador trabajador) {
+    private boolean insertLocal(Trabajador trabajador) {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
             ContentValues cv = new ContentValues();
@@ -54,7 +52,7 @@ public class GestionTrabajador {
         }
     }
 
-    public boolean deleteLocal() {
+    private boolean deleteLocal() {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
             data.delete("Trabajador", null, null);
@@ -66,7 +64,7 @@ public class GestionTrabajador {
         return true;
     }
 
-    public boolean selectServerInsertLocal() {
+    boolean selectServerInsertLocal() {
         try {
             Connection con = helperSQLServer.CONN();
             if (con == null) {
@@ -101,10 +99,8 @@ public class GestionTrabajador {
         try {
             SQLiteDatabase data = helper.getReadableDatabase();
             Cursor cursor = data.rawQuery("select QRrut from Trabajador where QRrut = '" + qrrut + "'", null);
-            if (cursor.moveToNext()) {
-                return true;
-            } else return false;
-
+            if (cursor.moveToNext()) return true;
+            else return false;
         } catch (Exception ex) {
             Log.w(TAG, "...Error al comprobarsi existe trabajador: " + ex.getMessage());
             return false;
