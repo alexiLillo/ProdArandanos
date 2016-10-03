@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -171,18 +173,20 @@ public class GestionPesaje {
         try {
             SQLiteDatabase data = helper.getReadableDatabase();
             Cursor cursor = data.rawQuery("select FechaHora from Pesaje where RutTrabajador = '" + rut + "' order by FechaHora desc limit 1", null);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             while (cursor.moveToNext()) {
-                if (Date.parse(cursor.getString(0)) > (Date.parse(getDateActual()) - (1000 * 60 * 10)))
+                if (sdf.parse(cursor.getString(0)).getTime() > (Date.parse(getDateActualmmddyyyy()) - (1000 * 60 * 10)))
                     bandera = false;
+                System.out.println("RESTADO DE FECHA PARA PESAR ========================================================================== " + sdf.parse(cursor.getString(0)).getTime() + " - " + (Date.parse(getDateActualmmddyyyy()) - (1000 * 60 * 10)));
             }
         } catch (Exception ex) {
-            Log.w(TAG, "...Error al seleccionar pesaje (puede pesar) en el servidor: " + ex.getMessage());
+            Log.w(TAG, "..........................................................................................................................................................................|..Error al seleccionar pesaje (puede pesar) en el servidor: " + ex.getMessage());
             return true;
         }
         return bandera;
     }
 
-    private String getDateActual() {
+    private String getDateActualmmddyyyy() {
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DAY_OF_MONTH);
         String dia = "" + day;
@@ -193,7 +197,7 @@ public class GestionPesaje {
             dia = "0" + day;
         if (month < 10)
             mes = "0" + mes;
-        String fecha = dia + "/" + mes + "/" + year;
+        String fecha = mes + "/" + dia + "/" + year;
         int hour = c.get(Calendar.HOUR_OF_DAY);
         String hora = "" + hour;
         int min = c.get(Calendar.MINUTE);

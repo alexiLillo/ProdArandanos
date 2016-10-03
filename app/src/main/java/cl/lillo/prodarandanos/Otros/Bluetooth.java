@@ -121,7 +121,7 @@ public class Bluetooth {
                                     txtKL = neg + peso + "." + coma;
                                 }
                             }
-                            System.out.println("Array: " + str);
+                            //System.out.println("Array: " + str);
                             //System.out.println(txtKL);
                             updateTV(txtKL);
                         } catch (Exception e) {
