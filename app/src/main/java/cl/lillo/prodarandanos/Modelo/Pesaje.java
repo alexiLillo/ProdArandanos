@@ -24,7 +24,10 @@ public class Pesaje {
     private double Factor;          /* 1 */
     private double Cantidad;        /* 1 */
     private String Lectura_SVAL;    /* no or null */
-    private int ID_Map;
+    private int ID_Map;             /* last */
+    private String TipoRegistro;
+    private String FechaHoraModificacion;
+    private String UsuarioModificaion;
 
     //constructor
     public Pesaje() {
@@ -173,6 +176,30 @@ public class Pesaje {
 
     public void setVariedad(String variedad) {
         Variedad = variedad;
+    }
+
+    public String getTipoRegistro() {
+        return TipoRegistro;
+    }
+
+    public void setTipoRegistro(String tipoRegistro) {
+        TipoRegistro = tipoRegistro;
+    }
+
+    public String getUsuarioModificaion() {
+        return UsuarioModificaion;
+    }
+
+    public void setUsuarioModificaion(String usuarioModificaion) {
+        UsuarioModificaion = usuarioModificaion;
+    }
+
+    public String getFechaHoraModificacion() {
+        return FechaHoraModificacion;
+    }
+
+    public void setFechaHoraModificacion(String fechaHoraModificacion) {
+        FechaHoraModificacion = fechaHoraModificacion;
     }
 
     //auto-instancia (creo)

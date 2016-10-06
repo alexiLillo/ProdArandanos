@@ -178,7 +178,7 @@ public class Bluetooth {
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
         for (BluetoothDevice device : pairedDevices) {
             // here you get the mac using device.getAddress()
-            if (device.getName().startsWith("HUBCROP")) {
+            if (device.getName().startsWith("CAF")) {
                 mac = device.getAddress();
             }
         }

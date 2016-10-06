@@ -1,6 +1,7 @@
 package cl.lillo.prodarandanos;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -557,8 +559,11 @@ public class MainActivity extends Activity {
             pesaje.setCantidad(1);
             pesaje.setLectura_SVAL("");
             pesaje.setID_Map(gestionTablaVista.lastMapeo());
+            pesaje.setTipoRegistro("Celular");
+            pesaje.setFechaHoraModificacion("-");
+            pesaje.setUsuarioModificaion(getImei(getApplicationContext()));
 
-            if (pesaje.getPesoNeto() < 1.5 || pesaje.getPesoNeto() > 2.5) {
+            if (pesaje.getPesoNeto() <= 0 || pesaje.getPesoNeto() > (3 - tara.getPeso())) {
                 new AlertDialog.Builder(this)
                         .setTitle("Pesaje erróneo!")
                         .setMessage("Vuelva a verificar bandejas")
@@ -815,5 +820,11 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         sync.eventoSyncPesaje(context, false);
+    }
+
+    public static String getImei(Context c) {
+        TelephonyManager telephonyManager = (TelephonyManager) c
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager.getDeviceId();
     }
 }
