@@ -375,7 +375,7 @@ public class MainActivity extends Activity {
                         //ok();
                         largo = listaFinal.length;
                         if (largo == 1) {
-                            if (gestionTrabajador.existe(scanContent)) {
+                            if (gestionTrabajador.existe(scanContent) && !scanContent.equals(pesador)) {
                                // if (gestionPesaje.puedePesar(scanContent)) {
                                     txtTrabajador.setText(scanContent);
                                     Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
