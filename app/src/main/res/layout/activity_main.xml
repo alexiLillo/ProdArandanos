@@ -286,7 +286,7 @@
                             android:id="@+id/btExport"
                             android:layout_width="wrap_content"
                             android:layout_height="81dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="6dp"
                             android:layout_weight="1"
                             android:background="@color/colorPrimary"
                             android:drawableTop="@drawable/weight"
@@ -297,7 +297,7 @@
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="81dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="6dp"
                             android:background="@android:color/holo_red_light"
                             android:drawableTop="@drawable/clear"
                             android:onClick="clear"

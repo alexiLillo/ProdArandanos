@@ -349,7 +349,10 @@ public class MainActivity extends Activity {
 
     //PROCESO DE ESCANEO DE CÓDIGO
     public void scanButton(View view) {
-        scanPesaje("Escanear código de Trabajador");
+        if (txtTrabajador.getText().equals("S/D"))
+            scanPesaje("Escanear código de Trabajador");
+        else
+            scanPesaje("Escanear Bandejas");
     }
 
     @Override
@@ -382,6 +385,7 @@ public class MainActivity extends Activity {
                                 cantidadBandejas = 0;
                                 scanPesaje("Escanear primera bandeja");
                                 ok();
+
                                 // } else {
                                 //   Toast.makeText(this, "Trabajador ya registró pesaje, vuelva a intentarlo mas tarde", Toast.LENGTH_SHORT).show();
                                 // lista.clear();
