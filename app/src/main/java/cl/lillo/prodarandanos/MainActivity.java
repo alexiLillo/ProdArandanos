@@ -376,19 +376,19 @@ public class MainActivity extends Activity {
                         largo = listaFinal.length;
                         if (largo == 1) {
                             if (gestionTrabajador.existe(scanContent) && !scanContent.equals(pesador)) {
-                               // if (gestionPesaje.puedePesar(scanContent)) {
-                                    txtTrabajador.setText(scanContent);
-                                    Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
-                                    cantidadBandejas = 0;
-                                    scanPesaje("Escanear primera bandeja");
-                                    ok();
-                               // } else {
-                                 //   Toast.makeText(this, "Trabajador ya registró pesaje, vuelva a intentarlo mas tarde", Toast.LENGTH_SHORT).show();
-                                   // lista.clear();
-                                    //largo = 0;
-                                    //cantidadBandejas = 0;
-                                   // scanPesaje();
-                                   // error();
+                                // if (gestionPesaje.puedePesar(scanContent)) {
+                                txtTrabajador.setText(scanContent);
+                                Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
+                                cantidadBandejas = 0;
+                                scanPesaje("Escanear primera bandeja");
+                                ok();
+                                // } else {
+                                //   Toast.makeText(this, "Trabajador ya registró pesaje, vuelva a intentarlo mas tarde", Toast.LENGTH_SHORT).show();
+                                // lista.clear();
+                                //largo = 0;
+                                //cantidadBandejas = 0;
+                                // scanPesaje();
+                                // error();
                                 //}
                             } else {
                                 Toast.makeText(this, "Código de trabajador incorrecto!", Toast.LENGTH_SHORT).show();
@@ -727,14 +727,37 @@ public class MainActivity extends Activity {
     }
 
     public void clear(View view) {
-        txtTrabajador.setText("S/D");
-        txtCajas.setText("S/D");
-        bandeja1 = "";
-        bandeja2 = "";
-        bandeja3 = "";
-        bandeja4 = "";
-        largo = 0;
-        lista.clear();
+        if (!txtTrabajador.getText().equals("S/D") || !txtCajas.getText().equals("S/D")) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Datos pendientes")
+                    .setMessage("¿Está segure de limpiar datos que aún no se registran en el sistema?")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            txtTrabajador.setText("S/D");
+                            txtCajas.setText("S/D");
+                            bandeja1 = "";
+                            bandeja2 = "";
+                            bandeja3 = "";
+                            bandeja4 = "";
+                            largo = 0;
+                            lista.clear();
+                        }
+                    })
+                    .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
+        } else {
+            txtTrabajador.setText("S/D");
+            txtCajas.setText("S/D");
+            bandeja1 = "";
+            bandeja2 = "";
+            bandeja3 = "";
+            bandeja4 = "";
+            largo = 0;
+            lista.clear();
+        }
+
     }
 
     //FECHA ACTUAL
