@@ -40,7 +40,7 @@
                         android:background="@color/colorPrimary"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="Pesaje de cajas"
+                        android:text="Pesaje de bandejas"
                         android:textColor="#fff"
                         android:textSize="25sp" />
 
@@ -233,7 +233,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Cajas: "
+                            android:text="Bandejas: "
                             android:textSize="25sp" />
 
                         <TextView

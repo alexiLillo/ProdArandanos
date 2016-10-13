@@ -349,7 +349,7 @@ public class MainActivity extends Activity {
 
     //PROCESO DE ESCANEO DE CÓDIGO
     public void scanButton(View view) {
-        scanPesaje();
+        scanPesaje("Escanear código de Trabajador");
     }
 
     @Override
@@ -376,26 +376,26 @@ public class MainActivity extends Activity {
                         largo = listaFinal.length;
                         if (largo == 1) {
                             if (gestionTrabajador.existe(scanContent)) {
-                                if (gestionPesaje.puedePesar(scanContent)) {
+                               // if (gestionPesaje.puedePesar(scanContent)) {
                                     txtTrabajador.setText(scanContent);
                                     Toast.makeText(this, "Trabajador: " + scanContent, Toast.LENGTH_SHORT).show();
                                     cantidadBandejas = 0;
-                                    scanPesaje();
+                                    scanPesaje("Escanear primera bandeja");
                                     ok();
-                                } else {
-                                    Toast.makeText(this, "Trabajador ya registró pesaje, vuelva a intentarlo mas tarde", Toast.LENGTH_SHORT).show();
-                                    lista.clear();
-                                    largo = 0;
-                                    cantidadBandejas = 0;
-                                    scanPesaje();
-                                    error();
-                                }
+                               // } else {
+                                 //   Toast.makeText(this, "Trabajador ya registró pesaje, vuelva a intentarlo mas tarde", Toast.LENGTH_SHORT).show();
+                                   // lista.clear();
+                                    //largo = 0;
+                                    //cantidadBandejas = 0;
+                                   // scanPesaje();
+                                   // error();
+                                //}
                             } else {
                                 Toast.makeText(this, "Código de trabajador incorrecto!", Toast.LENGTH_SHORT).show();
                                 lista.clear();
                                 largo = 0;
                                 cantidadBandejas = 0;
-                                scanPesaje();
+                                scanPesaje("Escanear código de Trabajador");
                                 error();
                             }
                         }
@@ -405,14 +405,14 @@ public class MainActivity extends Activity {
                                 Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 1;
                                 txtCajas.setText("1");
-                                scanPesaje();
+                                scanPesaje("Escanear segunda bandeja");
                                 ok();
                             } else {
                                 Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 0;
                                 largo -= 1;
                                 lista.remove(scanContent);
-                                scanPesaje();
+                                scanPesaje("Escanear primera bandeja");
                                 error();
                             }
                         }
@@ -422,14 +422,14 @@ public class MainActivity extends Activity {
                                 Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 2;
                                 txtCajas.setText("2");
-                                scanPesaje();
+                                scanPesaje("Escanear tercera bandeja");
                                 ok();
                             } else {
                                 Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 1;
                                 largo -= 1;
                                 lista.remove(scanContent);
-                                scanPesaje();
+                                scanPesaje("Escanear segunda bandeja");
                                 error();
                             }
 
@@ -440,14 +440,14 @@ public class MainActivity extends Activity {
                                 Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 3;
                                 txtCajas.setText("3");
-                                scanPesaje();
+                                scanPesaje("Escanear cuarta bandeja");
                                 ok();
                             } else {
                                 Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 2;
                                 largo -= 1;
                                 lista.remove(scanContent);
-                                scanPesaje();
+                                scanPesaje("Escanear tercera bandeja");
                                 error();
                             }
                         }
@@ -463,7 +463,7 @@ public class MainActivity extends Activity {
                                 cantidadBandejas = 3;
                                 largo -= 1;
                                 lista.remove(scanContent);
-                                scanPesaje();
+                                scanPesaje("Escanear cuarta bandeja");
                                 error();
                             }
                         }
@@ -471,7 +471,7 @@ public class MainActivity extends Activity {
                     } else {
                         if (largo < 5) {
                             Toast.makeText(this, "Código ya leido!", Toast.LENGTH_SHORT).show();
-                            scanPesaje();
+                            scanPesaje("Intente con un código diferente");
                             error();
                         }
                     }
@@ -559,7 +559,7 @@ public class MainActivity extends Activity {
             pesaje.setCantidad(1);
             pesaje.setLectura_SVAL("");
             pesaje.setID_Map(gestionTablaVista.lastMapeo());
-            pesaje.setTipoRegistro("Celular");
+            pesaje.setTipoRegistro("CELULAR");
             pesaje.setFechaHoraModificacion("-");
             pesaje.setUsuarioModificaion(getImei(getApplicationContext()));
 
@@ -679,9 +679,9 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void scanPesaje() {
+    public void scanPesaje(String title) {
         if (largo < 5) {
-            qrIntent("pesaje", "Escanear códigos QR");
+            qrIntent("pesaje", title.toUpperCase());
         }
     }
 
