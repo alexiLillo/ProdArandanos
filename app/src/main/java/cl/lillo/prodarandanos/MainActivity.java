@@ -507,12 +507,9 @@ public class MainActivity extends Activity {
                 //}
             }
             scanContent = null;
-        } else
-
-        {
+        } else {
             Toast.makeText(this, "No se escanearon datos", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void insertPesaje(final View view) {
@@ -715,6 +712,7 @@ public class MainActivity extends Activity {
 
     private void pop() {
         MediaPlayer mp = MediaPlayer.create(this, R.raw.pop);
+        mp.setVolume(50, 50);
         mp.start();
     }
 
