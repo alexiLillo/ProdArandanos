@@ -567,7 +567,7 @@ public class MainActivity extends Activity {
             if (pesaje.getPesoNeto() <= 0 || pesaje.getPesoNeto() > (3 - tara.getPeso())) {
                 new AlertDialog.Builder(this)
                         .setTitle("Pesaje erróneo!")
-                        .setMessage("Vuelva a verificar bandejas")
+                        .setMessage("El peso parece ser incorrecto\nVuelva a verificar bandejas")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                             }
