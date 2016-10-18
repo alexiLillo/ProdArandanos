@@ -657,7 +657,7 @@ public class MainActivity extends Activity {
                                     }
                                     if (is)
                                         Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
-                                    clear(view);
+                                    limpiar();
                                     pop();
                                     cantidadBandejas = 0;
                                     //System.out.println(".........LISTA SYNC....." + gestionPesaje.selectLocalSync().toString());
@@ -735,14 +735,7 @@ public class MainActivity extends Activity {
                     .setMessage("¿Está segure de limpiar datos que aún no se registran en el sistema?")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            txtTrabajador.setText("S/D");
-                            txtCajas.setText("S/D");
-                            bandeja1 = "";
-                            bandeja2 = "";
-                            bandeja3 = "";
-                            bandeja4 = "";
-                            largo = 0;
-                            lista.clear();
+                            limpiar();
                         }
                     })
                     .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
@@ -750,16 +743,20 @@ public class MainActivity extends Activity {
                         }
                     }).show();
         } else {
-            txtTrabajador.setText("S/D");
-            txtCajas.setText("S/D");
-            bandeja1 = "";
-            bandeja2 = "";
-            bandeja3 = "";
-            bandeja4 = "";
-            largo = 0;
-            lista.clear();
+            limpiar();
         }
 
+    }
+
+    public void limpiar(){
+        txtTrabajador.setText("S/D");
+        txtCajas.setText("S/D");
+        bandeja1 = "";
+        bandeja2 = "";
+        bandeja3 = "";
+        bandeja4 = "";
+        largo = 0;
+        lista.clear();
     }
 
     //FECHA ACTUAL
