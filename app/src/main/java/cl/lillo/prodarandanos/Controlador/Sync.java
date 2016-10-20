@@ -59,7 +59,7 @@ public class Sync {
             new ServicioCompleto(progress, syncCompleta, context).execute();
             return true;
         } else {
-            Toast.makeText(context, "Atención! No hay conexión a Internet", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Atención! No hay conexión de Red Local", Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -146,7 +146,7 @@ public class Sync {
         NetworkInfo[] redes = connec.getAllNetworkInfo();
         for (NetworkInfo rede : redes) {
             // Si alguna red tiene conexión, se devuelve true
-            if (rede.getState() == NetworkInfo.State.CONNECTED) {
+            if (rede.getState() == NetworkInfo.State.CONNECTED && (rede.getExtraInfo().equals("Arandanos") || rede.getExtraInfo().equals("Gimnasio") || rede.getExtraInfo().equals("W_Alamo") || rede.getExtraInfo().equals("W_Fosforos"))) {
                 connected = true;
             }
         }

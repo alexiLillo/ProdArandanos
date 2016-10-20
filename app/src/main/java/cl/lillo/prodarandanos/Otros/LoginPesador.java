@@ -197,7 +197,7 @@ public class LoginPesador extends Activity {
         NetworkInfo[] redes = connec.getAllNetworkInfo();
         for (NetworkInfo rede : redes) {
             // Si alguna red tiene conexión, se devuelve true
-            if (rede.getState() == NetworkInfo.State.CONNECTED) {
+            if (rede.getState() == NetworkInfo.State.CONNECTED && (rede.getExtraInfo().equals("Arandanos") || rede.getExtraInfo().equals("Gimnasio") || rede.getExtraInfo().equals("W_Alamo") || rede.getExtraInfo().equals("W_Fosforos"))) {
                 connected = true;
             }
         }
