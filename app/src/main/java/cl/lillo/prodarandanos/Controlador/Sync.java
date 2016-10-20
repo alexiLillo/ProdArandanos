@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -144,10 +146,17 @@ public class Sync {
         ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         // Recupera todas las redes (tanto móviles como wifi)
         NetworkInfo[] redes = connec.getAllNetworkInfo();
-        for (NetworkInfo rede : redes) {
+        for (NetworkInfo red : redes) {
             // Si alguna red tiene conexión, se devuelve true
-            if (rede.getState() == NetworkInfo.State.CONNECTED && (rede.getExtraInfo().equals("Arandanos") || rede.getExtraInfo().equals("Gimnasio") || rede.getExtraInfo().equals("W_Alamo") || rede.getExtraInfo().equals("W_Fosforos"))) {
-                connected = true;
+            if (red.getState() == NetworkInfo.State.CONNECTED) {
+                if (red.getExtraInfo().contains("W_Fosforos"))
+                    connected = true;
+                if (red.getExtraInfo().contains("W_Alamo"))
+                    connected = true;
+                if (red.getExtraInfo().contains("Gimnasio"))
+                    connected = true;
+                if (red.getExtraInfo().contains("Arandanos"))
+                    connected = true;
             }
         }
         return connected;
