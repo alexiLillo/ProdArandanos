@@ -157,6 +157,8 @@ public class Sync {
                     connected = true;
                 if (red.getExtraInfo().contains("Arandanos"))
                     connected = true;
+                if (red.getExtraInfo().contains("W_Temsa"))
+                    connected = true;
             }
         }
         return connected;

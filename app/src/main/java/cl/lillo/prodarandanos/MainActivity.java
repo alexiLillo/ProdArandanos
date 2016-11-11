@@ -258,6 +258,9 @@ public class MainActivity extends Activity {
                     String[] split = spinCuartel.getItemAtPosition(position).toString().split("-");
                     cuartel = split[1].replace(" ", "");
                 } else {
+                    //sin cuartel
+                    //cuartel = "0";
+                    //con cuartel
                     cuartel = "";
                 }
             }
