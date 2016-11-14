@@ -195,6 +195,17 @@ public class GestionPesaje {
         return bandera;
     }
 
+    public int cantBandejas(String rut) {
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select * from Pesaje where RutPesador = '" + rut + "' and FechaHora like '%" + getDateActual() +  "%'", null);
+            return cursor.getCount();
+        } catch (Exception ex) {
+            Log.w(TAG, "Error al contar cantidad bandejas: " + ex.getMessage());
+            return 0;
+        }
+    }
+
     private String getDateActualmmddyyyy() {
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DAY_OF_MONTH);
@@ -218,5 +229,30 @@ public class GestionPesaje {
         String horario = hora + ":" + minu;
 
         return fecha + " " + horario;
+    }
+
+    public String getDateActual() {
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        String dia = "" + day;
+        int month = c.get(Calendar.MONTH) + 1;
+        String mes = "" + month;
+        int year = c.get(Calendar.YEAR);
+        if (day < 10)
+            dia = "0" + day;
+        if (month < 10)
+            mes = "0" + mes;
+        String fecha = dia + "/" + mes + "/" + year;
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        String hora = "" + hour;
+        int min = c.get(Calendar.MINUTE);
+        String minu = "" + min;
+        if (hour < 10)
+            hora = "0" + hour;
+        if (min < 10)
+            minu = "0" + min;
+        String horario = hora + ":" + minu;
+
+        return fecha;
     }
 }

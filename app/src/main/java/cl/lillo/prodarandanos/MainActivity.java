@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
     private String variedad = "";
     private String pesador = "";
 
-    private TextView txtKL, txtTrabajador, txtCajas, txtTrabajadorConsulta, txtBandejasDia, txtKilosDia, txtBandejasTotal, txtKilosTotal, txtLastSync, txtLastSyncCompleta;
+    private TextView txtKL, txtTrabajador, txtCajas, txtTrabajadorConsulta, txtBandejasDia, txtKilosDia, txtBandejasTotal, txtKilosTotal, txtLastSync, txtLastSyncCompleta, txtCountBandejas;
 
     private EditText txtRut;
 
@@ -104,6 +104,7 @@ public class MainActivity extends Activity {
         txtKilosTotal = (TextView) findViewById(R.id.txtKilosTotal);
         txtLastSync = (TextView) findViewById(R.id.txtLastSync);
         txtLastSyncCompleta = (TextView) findViewById(R.id.txtLastSyncCompleta);
+        txtCountBandejas = (TextView) findViewById(R.id.txtCountBandejas);
 
         gestionTablaVista = new GestionTablaVista(this);
         gestionPesaje = new GestionPesaje(this);
@@ -111,6 +112,9 @@ public class MainActivity extends Activity {
         gestionTrabajador = new GestionTrabajador(this);
         gestionQRSdia = new GestionQRSdia(this);
         sync = new Sync();
+
+        txtCountBandejas.setText(String.valueOf(gestionPesaje.cantBandejas(pesador)));
+
 
         //TABS
         Resources res = getResources();
@@ -408,12 +412,21 @@ public class MainActivity extends Activity {
                         }
                         if (largo == 2) {
                             if (scanContent.startsWith("ENV")) {
-                                bandeja1 = scanContent;
-                                Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
-                                cantidadBandejas = 1;
-                                txtCajas.setText("1");
-                                scanPesaje("Escanear segunda bandeja");
-                                ok();
+                                if (gestionQRSdia.insertLocal(scanContent)) {
+                                    bandeja1 = scanContent;
+                                    Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 1;
+                                    txtCajas.setText("1");
+                                    scanPesaje("Escanear segunda bandeja");
+                                    ok();
+                                } else {
+                                    Toast.makeText(this, "Código de bandeja ya leído!", Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 0;
+                                    largo -= 1;
+                                    lista.remove(scanContent);
+                                    scanPesaje("Escanear primera bandeja");
+                                    error();
+                                }
                             } else {
                                 Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 0;
@@ -425,12 +438,21 @@ public class MainActivity extends Activity {
                         }
                         if (largo == 3) {
                             if (scanContent.startsWith("ENV")) {
-                                bandeja2 = scanContent;
-                                Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
-                                cantidadBandejas = 2;
-                                txtCajas.setText("2");
-                                scanPesaje("Escanear tercera bandeja");
-                                ok();
+                                if (gestionQRSdia.insertLocal(scanContent)) {
+                                    bandeja2 = scanContent;
+                                    Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 2;
+                                    txtCajas.setText("2");
+                                    scanPesaje("Escanear tercera bandeja");
+                                    ok();
+                                } else {
+                                    Toast.makeText(this, "Código de bandeja ya leído!", Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 1;
+                                    largo -= 1;
+                                    lista.remove(scanContent);
+                                    scanPesaje("Escanear segunda bandeja");
+                                    error();
+                                }
                             } else {
                                 Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 1;
@@ -443,12 +465,21 @@ public class MainActivity extends Activity {
                         }
                         if (largo == 4) {
                             if (scanContent.startsWith("ENV")) {
-                                bandeja3 = scanContent;
-                                Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
-                                cantidadBandejas = 3;
-                                txtCajas.setText("3");
-                                scanPesaje("Escanear cuarta bandeja");
-                                ok();
+                                if (gestionQRSdia.insertLocal(scanContent)) {
+                                    bandeja3 = scanContent;
+                                    Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 3;
+                                    txtCajas.setText("3");
+                                    scanPesaje("Escanear cuarta bandeja");
+                                    ok();
+                                } else {
+                                    Toast.makeText(this, "Código de bandeja ya leído!", Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 2;
+                                    largo -= 1;
+                                    lista.remove(scanContent);
+                                    scanPesaje("Escanear tercera bandeja");
+                                    error();
+                                }
                             } else {
                                 Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 2;
@@ -460,11 +491,20 @@ public class MainActivity extends Activity {
                         }
                         if (largo == 5) {
                             if (scanContent.startsWith("ENV")) {
-                                bandeja4 = scanContent;
-                                Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
-                                cantidadBandejas = 4;
-                                txtCajas.setText("4");
-                                ok();
+                                if (gestionQRSdia.insertLocal(scanContent)) {
+                                    bandeja4 = scanContent;
+                                    Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 4;
+                                    txtCajas.setText("4");
+                                    ok();
+                                } else {
+                                    Toast.makeText(this, "Código de bandeja ya leído!", Toast.LENGTH_SHORT).show();
+                                    cantidadBandejas = 3;
+                                    largo -= 1;
+                                    lista.remove(scanContent);
+                                    scanPesaje("Escanear cuarta bandeja");
+                                    error();
+                                }
                             } else {
                                 Toast.makeText(this, "Código de bandeja inválido!", Toast.LENGTH_SHORT).show();
                                 cantidadBandejas = 3;
@@ -477,7 +517,7 @@ public class MainActivity extends Activity {
 
                     } else {
                         if (largo < 5) {
-                            Toast.makeText(this, "Código ya leido!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Código QR ya leido!", Toast.LENGTH_SHORT).show();
                             scanPesaje("Intente con un código diferente");
                             error();
                         }
@@ -660,6 +700,7 @@ public class MainActivity extends Activity {
                                     }
                                     if (is)
                                         Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
+                                    txtCountBandejas.setText(String.valueOf(gestionPesaje.cantBandejas(pesador)));
                                     limpiar();
                                     pop();
                                     cantidadBandejas = 0;
@@ -751,7 +792,7 @@ public class MainActivity extends Activity {
 
     }
 
-    public void limpiar(){
+    public void limpiar() {
         txtTrabajador.setText("S/D");
         txtCajas.setText("S/D");
         bandeja1 = "";
