@@ -27,23 +27,32 @@ public class GestionQRSdia {
         helperSQLServer = new ConexionHelperSQLServer();
     }
 
-    public boolean insertLocal(String qr) {
-        if (existeLocal(qr)) {
-            return false;
-        } else {
-            try {
-                SQLiteDatabase data = helper.getWritableDatabase();
-                ContentValues cv = new ContentValues();
-                cv.put("Qr", qr);
-                cv.put("Fecha", getDateActual());
-                data.insert("QRSdia", null, cv);
-                data.close();
-                return true;
-            } catch (Exception ex) {
-                Log.w(TAG, "...Error al insertar tabla QRSdia local: " + ex.getMessage());
-                return false;
-            }
+    public void insertarLocal(String qr) {
+        try {
+            SQLiteDatabase data = helper.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put("Qr", qr);
+            cv.put("Fecha", getDateActual());
+            data.insert("QRSdia", null, cv);
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al insertar tabla QRSdia local: " + ex.getMessage());
         }
+    }
+
+    public boolean existeLocal(String qr) {
+        boolean bandera = false;
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select * from QRSdia where Qr ='" + qr + "' and Fecha = '" + getDateActual() + "'", null);
+            while (cursor.moveToNext()) {
+                bandera = true;
+            }
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al seleccionar desde tabla QRSdia: " + ex.getMessage());
+            return bandera;
+        }
+        return bandera;
     }
 
     public void deleteLocal() {
@@ -81,18 +90,5 @@ public class GestionQRSdia {
         return fecha;
     }
 
-    public boolean existeLocal(String qr) {
-        boolean bandera = false;
-        try {
-            SQLiteDatabase data = helper.getReadableDatabase();
-            Cursor cursor = data.rawQuery("select * from QRSdia where Qr ='" + qr + "'", null);
-            while (cursor.moveToNext()) {
-                bandera = true;
-            }
-        } catch (Exception ex) {
-            Log.w(TAG, "...Error al seleccionar desde tabla QRSdia: " + ex.getMessage());
-            return bandera;
-        }
-        return bandera;
-    }
+
 }

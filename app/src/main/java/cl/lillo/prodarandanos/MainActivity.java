@@ -412,7 +412,7 @@ public class MainActivity extends Activity {
                         }
                         if (largo == 2) {
                             if (scanContent.startsWith("ENV")) {
-                                if (gestionQRSdia.insertLocal(scanContent)) {
+                                if (!gestionQRSdia.existeLocal(scanContent)) {
                                     bandeja1 = scanContent;
                                     Toast.makeText(this, "Primera bandeja: " + bandeja1, Toast.LENGTH_SHORT).show();
                                     cantidadBandejas = 1;
@@ -438,7 +438,7 @@ public class MainActivity extends Activity {
                         }
                         if (largo == 3) {
                             if (scanContent.startsWith("ENV")) {
-                                if (gestionQRSdia.insertLocal(scanContent)) {
+                                if (!gestionQRSdia.existeLocal(scanContent)) {
                                     bandeja2 = scanContent;
                                     Toast.makeText(this, "Segunda bandeja: " + bandeja2, Toast.LENGTH_SHORT).show();
                                     cantidadBandejas = 2;
@@ -465,7 +465,7 @@ public class MainActivity extends Activity {
                         }
                         if (largo == 4) {
                             if (scanContent.startsWith("ENV")) {
-                                if (gestionQRSdia.insertLocal(scanContent)) {
+                                if (!gestionQRSdia.existeLocal(scanContent)) {
                                     bandeja3 = scanContent;
                                     Toast.makeText(this, "Tercera bandeja: " + bandeja3, Toast.LENGTH_SHORT).show();
                                     cantidadBandejas = 3;
@@ -491,7 +491,7 @@ public class MainActivity extends Activity {
                         }
                         if (largo == 5) {
                             if (scanContent.startsWith("ENV")) {
-                                if (gestionQRSdia.insertLocal(scanContent)) {
+                                if (!gestionQRSdia.existeLocal(scanContent)) {
                                     bandeja4 = scanContent;
                                     Toast.makeText(this, "Cuarta bandeja: " + bandeja4, Toast.LENGTH_SHORT).show();
                                     cantidadBandejas = 4;
@@ -627,11 +627,12 @@ public class MainActivity extends Activity {
                                     Toast.makeText(MainActivity.this, "No se escanearon bandejas!", Toast.LENGTH_SHORT).show();
                                 } else {
                                     if (cantidadBandejas >= 1) {
-                                        if (gestionQRSdia.insertLocal(bandeja1)) {
+                                        if (!gestionQRSdia.existeLocal(bandeja1)) {
                                             Pesaje pesaje1 = pesaje;
                                             pesaje1.setQRenvase(bandeja1);
                                             gestionPesaje.insertLocal(pesaje1);
                                             gestionPesaje.insertLocalSync(pesaje1);
+                                            gestionQRSdia.insertarLocal(bandeja1);
                                             is = true;
                                         } else {
                                             is = false;
@@ -645,11 +646,12 @@ public class MainActivity extends Activity {
                                         }
                                     }
                                     if (cantidadBandejas >= 2) {
-                                        if (gestionQRSdia.insertLocal(bandeja2)) {
+                                        if (!gestionQRSdia.existeLocal(bandeja2)) {
                                             Pesaje pesaje2 = pesaje;
                                             pesaje2.setQRenvase(bandeja2);
                                             gestionPesaje.insertLocal(pesaje2);
                                             gestionPesaje.insertLocalSync(pesaje2);
+                                            gestionQRSdia.insertarLocal(bandeja2);
                                             is = true;
                                         } else {
                                             is = false;
@@ -663,11 +665,12 @@ public class MainActivity extends Activity {
                                         }
                                     }
                                     if (cantidadBandejas >= 3) {
-                                        if (gestionQRSdia.insertLocal(bandeja3)) {
+                                        if (!gestionQRSdia.existeLocal(bandeja3)) {
                                             Pesaje pesaje3 = pesaje;
                                             pesaje3.setQRenvase(bandeja3);
                                             gestionPesaje.insertLocal(pesaje3);
                                             gestionPesaje.insertLocalSync(pesaje3);
+                                            gestionQRSdia.insertarLocal(bandeja3);
                                             is = true;
                                         } else {
                                             is = false;
@@ -681,11 +684,12 @@ public class MainActivity extends Activity {
                                         }
                                     }
                                     if (cantidadBandejas >= 4) {
-                                        if (gestionQRSdia.insertLocal(bandeja4)) {
+                                        if (!gestionQRSdia.existeLocal(bandeja4)) {
                                             Pesaje pesaje4 = pesaje;
                                             pesaje4.setQRenvase(bandeja4);
                                             gestionPesaje.insertLocal(pesaje4);
                                             gestionPesaje.insertLocalSync(pesaje4);
+                                            gestionQRSdia.insertarLocal(bandeja4);
                                             is = true;
                                         } else {
                                             is = false;
