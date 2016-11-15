@@ -36,7 +36,7 @@ public class GestionQRSdia {
             data.insert("QRSdia", null, cv);
             data.close();
         } catch (Exception ex) {
-            Log.w(TAG, "...Error al insertar tabla QRSdia local: " + ex.getMessage());
+            Log.w(TAG, "...Error al insertar QRSdia local: " + ex.getMessage());
         }
     }
 
