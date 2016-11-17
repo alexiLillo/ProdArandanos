@@ -517,7 +517,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center|top"
                         android:orientation="vertical"
                         android:padding="16dp">
@@ -564,7 +564,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center|top"
                         android:orientation="vertical"
                         android:padding="16dp">
@@ -605,8 +605,8 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Sincronizacion de pesajes." />
-
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <!-- opciones (consultar por trabajador) -->
