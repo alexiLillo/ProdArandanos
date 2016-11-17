@@ -607,7 +607,7 @@ public class MainActivity extends Activity {
             pesaje.setFechaHoraModificacion("-");
             pesaje.setUsuarioModificaion(getImei(getApplicationContext()));
 
-            if (pesaje.getPesoNeto() <= 0 || pesaje.getPesoNeto() > (3 - tara.getPeso())) {
+            if (pesaje.getPesoNeto() <= 0 || pesaje.getPesoNeto() > (3.5 - tara.getPeso())) {
                 new AlertDialog.Builder(this)
                         .setTitle("Pesaje erróneo!")
                         .setMessage("El peso parece ser incorrecto\nVuelva a verificar bandejas")
