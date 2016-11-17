@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
     private String variedad = "";
     private String pesador = "";
 
-    private TextView txtKL, txtTrabajador, txtCajas, txtTrabajadorConsulta, txtBandejasDia, txtKilosDia, txtBandejasTotal, txtKilosTotal, txtLastSync, txtLastSyncCompleta, txtCountBandejas;
+    private TextView txtKL, txtTrabajador, txtCajas, txtTrabajadorConsulta, txtBandejasDia, txtKilosDia, txtBandejasTotal, txtKilosTotal, txtLastSync, txtLastSyncCompleta, txtLastSyncPesajes, txtCountBandejas;
 
     private EditText txtRut;
 
@@ -104,6 +104,7 @@ public class MainActivity extends Activity {
         txtKilosTotal = (TextView) findViewById(R.id.txtKilosTotal);
         txtLastSync = (TextView) findViewById(R.id.txtLastSync);
         txtLastSyncCompleta = (TextView) findViewById(R.id.txtLastSyncCompleta);
+        txtLastSyncPesajes = (TextView) findViewById(R.id.txtLastSyncPesajes);
         txtCountBandejas = (TextView) findViewById(R.id.txtCountBandejas);
 
         gestionTablaVista = new GestionTablaVista(this);
@@ -278,7 +279,8 @@ public class MainActivity extends Activity {
         ArrayAdapter adapterTara = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTara.selectTaraSpinner());
         spinTara.setAdapter(adapterTara);
 
-        startSyncAuto();
+        //sincronizacion automatica
+        //startSyncAuto();
     }
 
     @Override
@@ -847,7 +849,9 @@ public class MainActivity extends Activity {
     }
 
     public void syncPesaje(View view) {
-        sync.eventoSyncPesaje(view.getContext(), false);
+        if(sync.eventoSyncPesaje(view.getContext(), false)) {
+            txtLastSyncPesajes.setText(getHoraActual());
+        }
     }
 
     private final static int INTERVAL = 1000 * 60 * 10; //  1000 * 60 * 10 = 10 minutes
@@ -897,4 +901,5 @@ public class MainActivity extends Activity {
                 .getSystemService(Context.TELEPHONY_SERVICE);
         return telephonyManager.getDeviceId();
     }
+
 }

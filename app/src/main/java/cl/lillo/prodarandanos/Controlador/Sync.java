@@ -36,6 +36,9 @@ public class Sync {
                 //sync pesajes
                 if (gestionPesaje.selectLocalInsertServer()) {
                     gestionPesaje.deleteLocalSync();
+
+                    //respaldo
+                    //gestionPesaje.insertServerTEST();
                 }
                 return "Sincronización completa correcta";
             } else {

@@ -140,6 +140,44 @@ public class GestionPesaje {
         return listaPesajes;
     }
 
+    private ArrayList<Pesaje> selectTEST() {
+        ArrayList<Pesaje> listaPesajes = new ArrayList<>();
+
+        try {
+            SQLiteDatabase data = helper.getReadableDatabase();
+            Cursor cursor = data.rawQuery("select * from Pesaje", null);
+            while (cursor.moveToNext()) {
+                Pesaje pesaje = new Pesaje();
+                pesaje.setProducto(cursor.getString(0));
+                pesaje.setQRenvase(cursor.getString(1));
+                pesaje.setRutTrabajador(cursor.getString(2));
+                pesaje.setRutPesador(cursor.getString(3));
+                pesaje.setFundo(cursor.getString(4));
+                pesaje.setPotrero(cursor.getString(5));
+                pesaje.setSector(cursor.getString(6));
+                pesaje.setVariedad(cursor.getString(7));
+                pesaje.setCuartel(cursor.getString(8));
+                pesaje.setFechaHora(cursor.getString(9));
+                pesaje.setPesoNeto(cursor.getDouble(10));
+                pesaje.setTara(cursor.getDouble(11));
+                pesaje.setFormato(cursor.getString(12));
+                pesaje.setTotalCantidad(cursor.getDouble(13));
+                pesaje.setFactor(cursor.getDouble(14));
+                pesaje.setCantidad(cursor.getDouble(15));
+                pesaje.setLectura_SVAL(cursor.getString(16));
+                pesaje.setID_Map(cursor.getInt(17));
+                pesaje.setTipoRegistro(cursor.getString(18));
+                pesaje.setFechaHoraModificacion(cursor.getString(19));
+                pesaje.setUsuarioModificaion(cursor.getString(20));
+                listaPesajes.add(pesaje);
+            }
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al leer pesaje local SYNC: " + ex.getMessage());
+        }
+        return listaPesajes;
+    }
+
     boolean deleteLocalSync() {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
@@ -171,6 +209,31 @@ public class GestionPesaje {
                 }
             } catch (Exception ex) {
                 Log.w(TAG, "...Error al insertar pesaje en el servidor: " + ex.getMessage());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean insertServerTEST() {
+        ArrayList<Pesaje> listaPesajes = selectTEST();
+        Iterator iterador = listaPesajes.listIterator();
+        while (iterador.hasNext()) {
+            Pesaje p = (Pesaje) iterador.next();
+            try {
+                Connection con = helperSQLServer.CONN();
+                if (con == null) {
+                    Log.w(TAG, "...Error al conectar con el servidor");
+                    return false;
+                } else {
+                    //Consulta SQL
+                    String query = "insert into PesajeTest values ('" + p.getProducto() + "', '" + p.getQRenvase() + "', '" + p.getRutTrabajador() + "', '" + p.getRutPesador() + "', '" + p.getFundo() + "', '" + p.getPotrero() + "', '" + p.getSector() + "', '" + p.getVariedad() + "', '" + p.getCuartel() + "', '" + p.getFechaHora() + "', " + p.getPesoNeto() + ", " + p.getTara() + ", '" + p.getFormato() + "', " + p.getTotalCantidad() + ", " + p.getFactor() + ", " + p.getCantidad() + ", '" + p.getLectura_SVAL() + "', " + p.getID_Map() + ", '" + p.getTipoRegistro() + "', '" + p.getFechaHoraModificacion() + "', '" + p.getUsuarioModificaion() + "')";
+                    Statement stmt = con.createStatement();
+                    stmt.executeUpdate(query);
+                    con.close();
+                }
+            } catch (Exception ex) {
+                Log.w(TAG, "...Error al insertar pesajeRESPALDO en el servidor: " + ex.getMessage());
                 return false;
             }
         }

@@ -45,31 +45,32 @@
                         android:textSize="25sp" />
 
                     <LinearLayout
-                        android:layout_marginTop="2dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         android:gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ultima sincronización: "/>
+                            android:text="Ultima sincronización: " />
 
                         <TextView
                             android:id="@+id/txtLastSync"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="S/D"/>
+                            android:text="S/D" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=" - Bandejas día: "/>
+                            android:text=" - Bandejas día: " />
 
                         <TextView
                             android:id="@+id/txtCountBandejas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="S/D"/>
+                            android:text="S/D" />
 
                     </LinearLayout>
 
@@ -200,10 +201,10 @@
                         android:orientation="horizontal" />
 
                     <LinearLayout
-                        android:layout_marginTop="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
+                        android:layout_marginTop="16dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
 
@@ -257,10 +258,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginBottom="22dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
+                        android:layout_marginBottom="22dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
 
@@ -292,7 +293,6 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            android:onClick="insertPesaje"
                             android:id="@+id/btExport"
                             android:layout_width="wrap_content"
                             android:layout_height="81dp"
@@ -300,6 +300,7 @@
                             android:layout_weight="1"
                             android:background="@color/colorPrimary"
                             android:drawableTop="@drawable/weight"
+                            android:onClick="insertPesaje"
                             android:padding="16dp"
                             android:text="Exportar"
                             android:textColor="#fff" />
@@ -347,9 +348,9 @@
                         android:textSize="25sp" />
 
                     <LinearLayout
-                        android:layout_marginBottom="19dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="19dp"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -526,7 +527,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/sync2"
-                            android:onClick="syncCompleta"/>
+                            android:onClick="syncCompleta" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -558,6 +559,52 @@
                             android:layout_height="wrap_content"
                             android:text="Al sincronizar se actualizarán datos necesarios para el funcionamiento óptimo de la aplicación, esto incluye datos trabajadores nuevos y antiguos, además de otros datos importantes.
 Tenga en cuenta que la sincronización puede tardar unos minutos." />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|top"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageButton
+                            android:id="@+id/btSyncPesajes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/sync2"
+                            android:onClick="syncPesaje" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sincronizar Pesajes"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ultima sincronización Pesajes: " />
+
+                            <TextView
+                                android:id="@+id/txtLastSyncPesajes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="S/D" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sincronizacion de pesajes." />
 
                     </LinearLayout>
                 </LinearLayout>
