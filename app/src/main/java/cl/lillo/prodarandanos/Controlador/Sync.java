@@ -105,7 +105,9 @@ public class Sync {
     public boolean eventoSyncPesaje(Context context, boolean syncCompleta) {
         //llamar servicio que sincroniza "bajo cuerda"
         if (conectado(context)) {
-            new ServicioPesaje(syncCompleta, context).execute();
+            ProgressDialog progress = new ProgressDialog(context);
+            progress.setMessage("Sincronizando, por favor espere...");
+            new ServicioPesaje(progress, syncCompleta, context).execute();
             return true;
         } else {
             //Toast.makeText(view.getContext(), "Atención! No hay conexión a Internet", Toast.LENGTH_LONG).show();
@@ -118,10 +120,11 @@ public class Sync {
         private String msj;
         private boolean syncCompleta;
         private Context context;
+        ProgressDialog progress;
 
 
-        ServicioPesaje(boolean syncCompleta, Context context) {
-
+        ServicioPesaje(ProgressDialog progress, boolean syncCompleta, Context context) {
+            this.progress = progress;
             this.syncCompleta = syncCompleta;
             this.context = context;
         }
@@ -129,6 +132,7 @@ public class Sync {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progress.show();
         }
 
         @Override
@@ -140,6 +144,8 @@ public class Sync {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            progress.dismiss();
+            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
             System.out.println("------------------->SYNC PESAJE:" + result);
         }
     }
