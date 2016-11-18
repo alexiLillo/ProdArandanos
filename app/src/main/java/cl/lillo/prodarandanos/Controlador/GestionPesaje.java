@@ -190,29 +190,43 @@ public class GestionPesaje {
         return true;
     }
 
-    boolean selectLocalInsertServer() {
+    public void deleteLocalSyncIndividual(String qr) {
+        try {
+            SQLiteDatabase data = helper.getWritableDatabase();
+            data.delete("PesajeSync", "QRenvase='" + qr + "'", null);
+            data.close();
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al eliminar registro de tabla PesajeSync: " + ex.getMessage());
+        }
+    }
+
+    public String selectLocalInsertServer() {
         ArrayList<Pesaje> listaPesajes = selectLocalSync();
         Iterator iterador = listaPesajes.listIterator();
+        int contador = 0;
+        int total = listaPesajes.size();
         while (iterador.hasNext()) {
             Pesaje p = (Pesaje) iterador.next();
             try {
                 Connection con = helperSQLServer.CONN();
                 if (con == null) {
                     Log.w(TAG, "...Error al conectar con el servidor");
-                    return false;
+                    //return guardado;
                 } else {
                     //Consulta SQL
                     String query = "insert into Pesaje values ('" + p.getProducto() + "', '" + p.getQRenvase() + "', '" + p.getRutTrabajador() + "', '" + p.getRutPesador() + "', '" + p.getFundo() + "', '" + p.getPotrero() + "', '" + p.getSector() + "', '" + p.getVariedad() + "', '" + p.getCuartel() + "', '" + p.getFechaHora() + "', " + p.getPesoNeto() + ", " + p.getTara() + ", '" + p.getFormato() + "', " + p.getTotalCantidad() + ", " + p.getFactor() + ", " + p.getCantidad() + ", '" + p.getLectura_SVAL() + "', " + p.getID_Map() + ", '" + p.getTipoRegistro() + "', '" + p.getFechaHoraModificacion() + "', '" + p.getUsuarioModificaion() + "')";
                     Statement stmt = con.createStatement();
                     stmt.executeUpdate(query);
                     con.close();
+                    contador = contador + 1;
+                    deleteLocalSyncIndividual(p.getQRenvase());
                 }
             } catch (Exception ex) {
                 Log.w(TAG, "...Error al insertar pesaje en el servidor: " + ex.getMessage());
-                return false;
+                //return guardado;
             }
         }
-        return true;
+        return "Se sincronizaron " + contador + " de " + total + " bandejas";
     }
 
     public boolean insertServerTEST() {
@@ -261,7 +275,7 @@ public class GestionPesaje {
     public int cantBandejas(String rut) {
         try {
             SQLiteDatabase data = helper.getReadableDatabase();
-            Cursor cursor = data.rawQuery("select * from Pesaje where RutPesador = '" + rut + "' and FechaHora like '%" + getDateActual() +  "%'", null);
+            Cursor cursor = data.rawQuery("select * from Pesaje where RutPesador = '" + rut + "' and FechaHora like '%" + getDateActual() + "%'", null);
             return cursor.getCount();
         } catch (Exception ex) {
             Log.w(TAG, "Error al contar cantidad bandejas: " + ex.getMessage());

@@ -850,6 +850,7 @@ public class MainActivity extends Activity {
 
     public void syncPesaje(View view) {
         if(sync.eventoSyncPesaje(view.getContext(), false)) {
+            txtLastSync.setText(getHoraActual());
             txtLastSyncPesajes.setText(getHoraActual());
         }
     }

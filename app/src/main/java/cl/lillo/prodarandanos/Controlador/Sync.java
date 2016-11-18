@@ -34,21 +34,22 @@ public class Sync {
                 gestionTara.selectServerInsertLocal();
                 gestionTrabajador.selectServerInsertLocal();
                 //sync pesajes
-                if (gestionPesaje.selectLocalInsertServer()) {
-                    gestionPesaje.deleteLocalSync();
+                //if (gestionPesaje.selectLocalInsertServer()) {
+                //gestionPesaje.deleteLocalSync();
 
-                    //respaldo
-                    //gestionPesaje.insertServerTEST();
-                }
-                return "Sincronización completa correcta";
+                //respaldo
+                //gestionPesaje.insertServerTEST();
+                //}
+                return gestionPesaje.selectLocalInsertServer();
+
             } else {
                 //instancia
                 gestionPesaje = new GestionPesaje(context);
                 //sync pesaje
-                if (gestionPesaje.selectLocalInsertServer()) {
-                    gestionPesaje.deleteLocalSync();
-                }
-                return "Sincronización pesajes correcta";
+                //if (gestionPesaje.selectLocalInsertServer()) {
+                //gestionPesaje.deleteLocalSync();
+                //}
+                return gestionPesaje.selectLocalInsertServer();
             }
         } catch (Exception ex) {
             Log.w(TAG, "...Error al sincronizar: " + ex.getMessage());
