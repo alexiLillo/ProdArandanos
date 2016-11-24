@@ -558,7 +558,7 @@ public class MainActivity extends Activity {
     }
 
     public void insertPesaje(final View view) {
-        if (!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("") && cantidadBandejas != 0 && !txtKL.getText().toString().equals("S/D")) {
+        if (!fundo.equals("") && !potrero.equals("") && !sector.equals("") && !variedad.equals("") && !cuartel.equals("") && cantidadBandejas != 0 && !txtKL.getText().toString().equals("S/D") && !txtTrabajador.getText().toString().equals("S/D") && !txtCajas.getText().toString().equals("S/D")) {
             final String id_tara = spinTara.getSelectedItem().toString().substring(0, 2).replace(" ", "");
             Tara tara = gestionTara.selectLocal(id_tara);
             final Pesaje pesaje = new Pesaje();
@@ -801,6 +801,7 @@ public class MainActivity extends Activity {
     public void limpiar() {
         txtTrabajador.setText("S/D");
         txtCajas.setText("S/D");
+        cantidadBandejas = 0;
         bandeja1 = "";
         bandeja2 = "";
         bandeja3 = "";
