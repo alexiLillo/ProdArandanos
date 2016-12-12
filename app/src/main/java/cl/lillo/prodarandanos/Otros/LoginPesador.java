@@ -17,8 +17,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.sql.Date;
+import java.sql.SQLOutput;
 import java.util.Calendar;
 
+import cl.lillo.prodarandanos.Controlador.GestionPesaje;
 import cl.lillo.prodarandanos.Controlador.GestionQRSdia;
 import cl.lillo.prodarandanos.Controlador.GestionTrabajador;
 import cl.lillo.prodarandanos.MainActivity;
@@ -32,6 +34,7 @@ public class LoginPesador extends Activity {
     String scanFormat;
     private GestionTrabajador gestionTrabajador;
     private GestionQRSdia gestionQRSdia;
+    private GestionPesaje gestionPesaje;
     private static final String TAG = "LoginPesador";
 
 
@@ -40,6 +43,7 @@ public class LoginPesador extends Activity {
         super.onCreate(savedInstanceState);
         gestionTrabajador = new GestionTrabajador(this);
         gestionQRSdia = new GestionQRSdia(this);
+        gestionPesaje = new GestionPesaje(this);
         gestionQRSdia.deleteLocal();
         if (conectado(this)) {
             if (fechaCorrecta()) {

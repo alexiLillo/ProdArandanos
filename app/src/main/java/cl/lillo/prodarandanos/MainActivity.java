@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -59,6 +62,7 @@ public class MainActivity extends Activity {
     private int largo;
     private String bandeja1, bandeja2, bandeja3, bandeja4;
     private int cantidadBandejas = 0;
+    private int contadorTemporalSync = 0;
 
     //Gestiones
     private Sync sync;
@@ -115,7 +119,6 @@ public class MainActivity extends Activity {
         sync = new Sync();
 
         txtCountBandejas.setText(String.valueOf(gestionPesaje.cantBandejas(pesador)));
-
 
         //TABS
         Resources res = getResources();
@@ -281,6 +284,7 @@ public class MainActivity extends Activity {
 
         //sincronizacion automatica
         //startSyncAuto();
+        gestionPesaje.deleteLocalOld();
     }
 
     @Override
@@ -707,6 +711,19 @@ public class MainActivity extends Activity {
                                     if (is)
                                         Toast.makeText(MainActivity.this, "Pesaje registrado", Toast.LENGTH_SHORT).show();
                                     txtCountBandejas.setText(String.valueOf(gestionPesaje.cantBandejas(pesador)));
+                                    contadorTemporalSync = contadorTemporalSync + cantidadBandejas;
+                                    if (contadorTemporalSync >= 200 && contadorTemporalSync < 250) {
+                                        txtCountBandejas.setTextColor(Color.YELLOW);
+                                        Toast toast = Toast.makeText(MainActivity.this, "Se sugiere sincronizar pesajes", Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.TOP, 0, 0);
+                                        toast.show();
+                                    }
+                                    if (contadorTemporalSync >= 250) {
+                                        txtCountBandejas.setTextColor(Color.RED);
+                                        Toast toast = Toast.makeText(MainActivity.this, "SINCRONIZAR PESAJES LO ANTES POSIBLE", Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.TOP, 0, 0);
+                                        toast.show();
+                                    }
                                     limpiar();
                                     pop();
                                     cantidadBandejas = 0;
@@ -838,6 +855,7 @@ public class MainActivity extends Activity {
     //SINCRONIZACION
     public void syncCompleta(View view) {
         if (sync.eventoSyncAll(view.getContext(), true)) {
+            contadorTemporalSync = 0;
             txtLastSync.setText(getHoraActual());
             txtLastSyncCompleta.setText(getHoraActual());
         }
@@ -850,7 +868,8 @@ public class MainActivity extends Activity {
     }
 
     public void syncPesaje(View view) {
-        if(sync.eventoSyncPesaje(view.getContext(), false)) {
+        if (sync.eventoSyncPesaje(view.getContext(), false)) {
+            contadorTemporalSync = 0;
             txtLastSync.setText(getHoraActual());
             txtLastSyncPesajes.setText(getHoraActual());
         }

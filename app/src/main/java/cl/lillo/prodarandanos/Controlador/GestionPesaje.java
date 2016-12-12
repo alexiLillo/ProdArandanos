@@ -190,6 +190,20 @@ public class GestionPesaje {
         return true;
     }
 
+    public boolean deleteLocalOld() {
+        try {
+            //System.out.println("TABLA PESAJE ANTES DE BORRAR>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + selectTEST().size());
+            SQLiteDatabase data = helper.getWritableDatabase();
+            data.delete("Pesaje", "FechaHora < '" + getDateActualToDelete() + "'", null);
+            data.close();
+            //System.out.println("TABLA PESAJE DESPUES DE BORRAR>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + selectTEST().size());
+        } catch (Exception ex) {
+            Log.w(TAG, "...Error al vaciar tabla PesajeSync: " + ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
     public void deleteLocalSyncIndividual(String qr) {
         try {
             SQLiteDatabase data = helper.getWritableDatabase();
@@ -315,6 +329,45 @@ public class GestionPesaje {
         int month = c.get(Calendar.MONTH) + 1;
         String mes = "" + month;
         int year = c.get(Calendar.YEAR);
+        if (day < 10)
+            dia = "0" + day;
+        if (month < 10)
+            mes = "0" + mes;
+        String fecha = dia + "/" + mes + "/" + year;
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        String hora = "" + hour;
+        int min = c.get(Calendar.MINUTE);
+        String minu = "" + min;
+        if (hour < 10)
+            hora = "0" + hour;
+        if (min < 10)
+            minu = "0" + min;
+        String horario = hora + ":" + minu;
+
+        return fecha;
+    }
+
+    public String getDateActualToDelete() {
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        String dia = "" + day;
+        int month = c.get(Calendar.MONTH) + 1;
+        String mes = "" + month;
+        int year = c.get(Calendar.YEAR);
+
+        if (day > 7) {
+            day = day - 7;
+        } else {
+            if (month == 1) {
+                year = year - 1;
+                month = 12;
+                day = day + 22;
+            } else {
+                month = month - 1;
+                day = day + 22;
+            }
+        }
+
         if (day < 10)
             dia = "0" + day;
         if (month < 10)
