@@ -169,6 +169,8 @@ public class Sync {
                     connected = true;
                 if (red.getExtraInfo().contains("W_Temsa"))
                     connected = true;
+                if (red.getExtraInfo().contains("Fosforos"))
+                    connected = true;
             }
         }
         return connected;

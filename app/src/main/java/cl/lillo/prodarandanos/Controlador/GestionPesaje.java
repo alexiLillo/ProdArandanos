@@ -230,10 +230,11 @@ public class GestionPesaje {
                     //Consulta SQL
                     String query = "insert into Pesaje values ('" + p.getProducto() + "', '" + p.getQRenvase() + "', '" + p.getRutTrabajador() + "', '" + p.getRutPesador() + "', '" + p.getFundo() + "', '" + p.getPotrero() + "', '" + p.getSector() + "', '" + p.getVariedad() + "', '" + p.getCuartel() + "', '" + p.getFechaHora() + "', " + p.getPesoNeto() + ", " + p.getTara() + ", '" + p.getFormato() + "', " + p.getTotalCantidad() + ", " + p.getFactor() + ", " + p.getCantidad() + ", '" + p.getLectura_SVAL() + "', " + p.getID_Map() + ", '" + p.getTipoRegistro() + "', '" + p.getFechaHoraModificacion() + "', '" + p.getUsuarioModificaion() + "')";
                     Statement stmt = con.createStatement();
-                    stmt.executeUpdate(query);
+                    //revisar cuanto devuelve execute update
+                    if (stmt.executeUpdate(query) > 0)
+                        deleteLocalSyncIndividual(p.getQRenvase());
                     con.close();
                     contador = contador + 1;
-                    deleteLocalSyncIndividual(p.getQRenvase());
                 }
             } catch (Exception ex) {
                 Log.w(TAG, "...Error al insertar pesaje en el servidor: " + ex.getMessage());
