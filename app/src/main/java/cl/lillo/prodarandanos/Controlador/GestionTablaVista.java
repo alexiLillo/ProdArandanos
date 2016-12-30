@@ -45,6 +45,7 @@ public class GestionTablaVista {
             cv.put("ID_Cuartel", tablaVista.getID_Cuartel());
             cv.put("nombreCuartel", tablaVista.getNombreCuartel());
             cv.put("ID_Mapeo", tablaVista.getID_Mapeo());
+            cv.put("id_Producto", tablaVista.getID_Producto());
             data.insertWithOnConflict("TablaVista", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
             data.close();
             return true;
@@ -73,7 +74,7 @@ public class GestionTablaVista {
                 return false;
             } else if (deleteLocal()) {
                 //Consulta SQL
-                String query = "select * from VistaApkPesaje";
+                String query = "select * from VistaApkPesaje where ID_Producto = '32'";
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
@@ -89,6 +90,7 @@ public class GestionTablaVista {
                     tablaVista.setID_Cuartel(rs.getString("ID_Cuartel"));
                     tablaVista.setNombreCuartel(rs.getString("nombreCuartel"));
                     tablaVista.setID_Mapeo(rs.getInt("ID_Mapeo"));
+                    tablaVista.setID_Producto(rs.getString("ID_Producto"));
 
                     insertLocal(tablaVista);
                 }

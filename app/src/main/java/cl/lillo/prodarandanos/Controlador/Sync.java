@@ -171,6 +171,8 @@ public class Sync {
                     connected = true;
                 if (red.getExtraInfo().contains("Fosforos"))
                     connected = true;
+                //MOMENTANO POR DESARROLLO
+                //connected = true;
             }
         }
         return connected;

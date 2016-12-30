@@ -84,6 +84,9 @@ public class MainActivity extends Activity {
 
         Bundle bundle = this.getIntent().getExtras();
         pesador = bundle.getString("pesador");
+        //MOMENTANEO PARA NO LOGEAR
+        //pesador = "00000000-0";
+
 
         bluetooth = new Bluetooth(this);
         bluetooth.onCreate();

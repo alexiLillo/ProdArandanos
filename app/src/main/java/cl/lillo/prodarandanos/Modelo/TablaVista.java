@@ -18,6 +18,7 @@ public class TablaVista {
     private String ID_Cuartel;
     private String nombreCuartel;
     private int ID_Mapeo;
+    private String ID_Producto;
 
     //constructor
     public TablaVista() {
@@ -110,6 +111,14 @@ public class TablaVista {
 
     public void setNombreVariedad(String nombreVariedad) {
         this.nombreVariedad = nombreVariedad;
+    }
+
+    public String getID_Producto() {
+        return ID_Producto;
+    }
+
+    public void setID_Producto(String ID_Producto) {
+        this.ID_Producto = ID_Producto;
     }
 
     //auto-instancia (creo)
