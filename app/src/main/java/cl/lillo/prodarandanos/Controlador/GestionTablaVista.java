@@ -46,6 +46,8 @@ public class GestionTablaVista {
             cv.put("nombreCuartel", tablaVista.getNombreCuartel());
             cv.put("ID_Mapeo", tablaVista.getID_Mapeo());
             cv.put("id_Producto", tablaVista.getID_Producto());
+            cv.put("TipoEnvase", tablaVista.getTipoEnvase());
+            cv.put("KilosNetoEnvase", tablaVista.getKilosNetoEnvase());
             data.insertWithOnConflict("TablaVista", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
             data.close();
             return true;
@@ -91,6 +93,8 @@ public class GestionTablaVista {
                     tablaVista.setNombreCuartel(rs.getString("nombreCuartel"));
                     tablaVista.setID_Mapeo(rs.getInt("ID_Mapeo"));
                     tablaVista.setID_Producto(rs.getString("ID_Producto"));
+                    tablaVista.setTipoEnvase(rs.getString("TipoEnvase"));
+                    tablaVista.setKilosNetoEnvase(rs.getFloat("KilosNetoEnvase"));
 
                     insertLocal(tablaVista);
                 }

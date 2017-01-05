@@ -39,7 +39,7 @@ import cl.lillo.prodarandanos.Otros.*;
 
 public class MainActivity extends Activity {
 
-    NumberFormat formatter = new DecimalFormat("#0.00");
+    NumberFormat formatter = new DecimalFormat("#0.0000");
     NumberFormat formatter2 = new DecimalFormat("#0");
 
     private String fundo = "";
@@ -571,6 +571,7 @@ public class MainActivity extends Activity {
             final Pesaje pesaje = new Pesaje();
             pesaje.setProducto(tara.getProducto());
             //pesaje.setQRenvase();
+            pesaje.setCuadrilla("-");
             pesaje.setRutTrabajador(txtTrabajador.getText().toString());
             //rut pesador se debe escanear al iniciar
             pesaje.setRutPesador(pesador);
@@ -802,7 +803,7 @@ public class MainActivity extends Activity {
         if (!txtTrabajador.getText().equals("S/D") || !txtCajas.getText().equals("S/D")) {
             new AlertDialog.Builder(this)
                     .setTitle("Datos pendientes")
-                    .setMessage("¿Está segure de limpiar datos que aún no se registran en el sistema?")
+                    .setMessage("¿Está seguro de limpiar datos que aún no se registran en el sistema?")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             limpiar();
@@ -815,7 +816,6 @@ public class MainActivity extends Activity {
         } else {
             limpiar();
         }
-
     }
 
     public void limpiar() {

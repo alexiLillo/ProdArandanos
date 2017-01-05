@@ -77,215 +77,222 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="  Fundo:" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="  Potrero:" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="  Sector:" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <Spinner
-                            android:id="@+id/spinFundo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="1dp"
-                            android:layout_height="45dp"
-                            android:layout_margin="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="  Fundo:" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="  Potrero:" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="  Sector:" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/spinFundo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center" />
+
+                            <LinearLayout
+                                android:layout_width="1dp"
+                                android:layout_height="45dp"
+                                android:layout_margin="0dp"
+                                android:background="@color/colorAccent"
+                                android:orientation="horizontal" />
+
+                            <Spinner
+                                android:id="@+id/spinPotrero"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|center"
+                                android:layout_weight="1" />
+
+                            <LinearLayout
+                                android:layout_width="1dp"
+                                android:layout_height="45dp"
+                                android:layout_margin="0dp"
+                                android:background="@color/colorAccent"
+                                android:orientation="horizontal" />
+
+                            <Spinner
+                                android:id="@+id/spinSector"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|center"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="5dp"
                             android:background="@color/colorAccent"
                             android:orientation="horizontal" />
 
-                        <Spinner
-                            android:id="@+id/spinPotrero"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|center"
-                            android:layout_weight="1" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="  Variedad:" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="  Cuartel:" />
+                        </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="1dp"
-                            android:layout_height="45dp"
-                            android:layout_margin="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/spinVariedad"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:layout_weight="1" />
+
+                            <LinearLayout
+                                android:layout_width="1dp"
+                                android:layout_height="45dp"
+                                android:layout_margin="0dp"
+                                android:background="@color/colorAccent"
+                                android:orientation="horizontal" />
+
+                            <Spinner
+                                android:id="@+id/spinCuartel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|center"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="5dp"
                             android:background="@color/colorAccent"
                             android:orientation="horizontal" />
 
-                        <Spinner
-                            android:id="@+id/spinSector"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right|center"
-                            android:layout_weight="1" />
+                            android:layout_gravity="left"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:text="Trabajador: "
+                                android:textSize="25sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="5dp"
-                        android:background="@color/colorAccent"
-                        android:orientation="horizontal" />
+                            <TextView
+                                android:id="@+id/txtTrabajador"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:text="S/D"
+                                android:textSize="25sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:background="@drawable/qr2"
+                                android:onClick="scanButton" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="  Variedad:" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="  Cuartel:" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <Spinner
-                            android:id="@+id/spinVariedad"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:layout_weight="1" />
+                        </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="1dp"
-                            android:layout_height="45dp"
-                            android:layout_margin="0dp"
-                            android:background="@color/colorAccent"
-                            android:orientation="horizontal" />
-
-                        <Spinner
-                            android:id="@+id/spinCuartel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right|center"
-                            android:layout_weight="1" />
+                            android:layout_gravity="left"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Bandejas: "
+                                android:textSize="25sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="5dp"
-                        android:background="@color/colorAccent"
-                        android:orientation="horizontal" />
+                            <TextView
+                                android:id="@+id/txtCajas"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="S/D"
+                                android:textSize="25sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
+                        </LinearLayout>
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:text="Trabajador: "
-                            android:textSize="25sp" />
+                            android:layout_gravity="left"
+                            android:layout_marginBottom="22dp"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
 
-                        <TextView
-                            android:id="@+id/txtTrabajador"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="S/D"
-                            android:textSize="25sp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Peso: "
+                                android:textSize="40sp" />
 
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:background="@drawable/qr2"
-                            android:onClick="scanButton" />
+                            <TextView
+                                android:id="@+id/txtPesoKL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="S/D"
+                                android:textSize="45sp" />
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Bandejas: "
-                            android:textSize="25sp" />
-
-                        <TextView
-                            android:id="@+id/txtCajas"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="S/D"
-                            android:textSize="25sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginBottom="22dp"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Peso: "
-                            android:textSize="40sp" />
-
-                        <TextView
-                            android:id="@+id/txtPesoKL"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="S/D"
-                            android:textSize="45sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text=" kl"
-                            android:textSize="40sp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text=" kl"
+                                android:textSize="40sp" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -315,6 +322,7 @@
                             android:padding="16dp"
                             android:text="Limpiar"
                             android:textColor="#fff" />
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -604,7 +612,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sincronización de pesajes registrados con el servidor, considerar que mientras mas tiempo pase entre una sincronizacion y otra, tomará mas tiempo sincronizar." />
+                            android:text="Sincronización de pesajes registrados con el servidor, considerar que mientras más tiempo pase entre una sincronización y otra, tomará más tiempo sincronizar." />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -790,6 +798,7 @@ Tenga en cuenta que la sincronización puede tardar unos minutos." />
                         android:layout_height="wrap_content"></Spinner>
 
                 </LinearLayout>
+
 
             </FrameLayout>
         </LinearLayout>
