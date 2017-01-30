@@ -155,6 +155,7 @@ public class MainActivity extends Activity {
         //fin tabs
 
         ArrayAdapter adapterF = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gestionTablaVista.selectFundo());
+        System.out.println(gestionTablaVista.selectFundo().toString());
         spinFundo.setAdapter(adapterF);
         spinFundo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -579,6 +580,7 @@ public class MainActivity extends Activity {
             pesaje.setPotrero(potrero);
             pesaje.setSector(sector);
             pesaje.setVariedad(variedad);
+            pesaje.setClase("-");
             pesaje.setCuartel(cuartel);
 
             Calendar c = Calendar.getInstance();

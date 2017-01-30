@@ -47,6 +47,7 @@ public class GestionPesaje {
             cv.put("Potrero", pesaje.getPotrero());
             cv.put("Sector", pesaje.getSector());
             cv.put("Variedad", pesaje.getVariedad());
+            cv.put("Clase", pesaje.getClase());
             cv.put("Cuartel", pesaje.getCuartel());
             cv.put("FechaHora", pesaje.getFechaHora());
             cv.put("PesoNeto", pesaje.getPesoNeto());
@@ -82,6 +83,7 @@ public class GestionPesaje {
             cv.put("Potrero", pesaje.getPotrero());
             cv.put("Sector", pesaje.getSector());
             cv.put("Variedad", pesaje.getVariedad());
+            cv.put("Clase", pesaje.getClase());
             cv.put("Cuartel", pesaje.getCuartel());
             cv.put("FechaHora", pesaje.getFechaHora());
             cv.put("PesoNeto", pesaje.getPesoNeto());
@@ -121,6 +123,7 @@ public class GestionPesaje {
                 pesaje.setPotrero(cursor.getString(6));
                 pesaje.setSector(cursor.getString(7));
                 pesaje.setVariedad(cursor.getString(8));
+                pesaje.setClase(cursor.getString(9));
                 pesaje.setCuartel(cursor.getString(10));
                 pesaje.setFechaHora(cursor.getString(11));
                 pesaje.setPesoNeto(cursor.getDouble(12));
@@ -160,6 +163,7 @@ public class GestionPesaje {
                 pesaje.setPotrero(cursor.getString(6));
                 pesaje.setSector(cursor.getString(7));
                 pesaje.setVariedad(cursor.getString(8));
+                pesaje.setClase(cursor.getString(9));
                 pesaje.setCuartel(cursor.getString(10));
                 pesaje.setFechaHora(cursor.getString(11));
                 pesaje.setPesoNeto(cursor.getDouble(12));
@@ -232,7 +236,8 @@ public class GestionPesaje {
                     //return guardado;
                 } else {
                     //Consulta SQL
-                    String query = "insert into Pesaje values ('" + p.getProducto() + "', '" + p.getQRenvase() + "', '" + p.getCuadrilla() + "', '" + p.getRutTrabajador() + "', '" + p.getRutPesador() + "', '" + p.getFundo() + "', '" + p.getPotrero() + "', '" + p.getSector() + "', '" + p.getVariedad() + "', " + "-" + ", '" + p.getCuartel() + "', '" + p.getFechaHora() + "', " + p.getPesoNeto() + ", " + p.getTara() + ", '" + p.getFormato() + "', " + p.getTotalCantidad() + ", " + p.getFactor() + ", " + p.getCantidad() + ", '" + p.getLectura_SVAL() + "', " + p.getID_Map() + ", '" + p.getTipoRegistro() + "', '" + p.getFechaHoraModificacion() + "', '" + p.getUsuarioModificaion() + "')";
+                    String query = "insert into Pesaje values ('" + p.getProducto() + "', '" + p.getQRenvase() + "', '" + p.getCuadrilla() + "', '" + p.getRutTrabajador() + "', '" + p.getRutPesador() + "', '" + p.getFundo() + "', '" + p.getPotrero() + "', '" + p.getSector() + "', '" + p.getVariedad() + "', '" + p.getClase() + "', '" + p.getCuartel() + "', '" + p.getFechaHora() + "', " + p.getPesoNeto() + ", " + p.getTara() + ", '" + p.getFormato() + "', " + p.getTotalCantidad() + ", " + p.getFactor() + ", " + p.getCantidad() + ", '" + p.getLectura_SVAL() + "', " + p.getID_Map() + ", '" + p.getTipoRegistro() + "', '" + p.getFechaHoraModificacion() + "', '" + p.getUsuarioModificaion() + "')";
+                    System.out.println("insert into Pesaje values ('" + p.getProducto() + "', '" + p.getQRenvase() + "', '" + p.getCuadrilla() + "', '" + p.getRutTrabajador() + "', '" + p.getRutPesador() + "', '" + p.getFundo() + "', '" + p.getPotrero() + "', '" + p.getSector() + "', '" + p.getVariedad() + "', '" + p.getClase() + "', '" + p.getCuartel() + "', '" + p.getFechaHora() + "', " + p.getPesoNeto() + ", " + p.getTara() + ", '" + p.getFormato() + "', " + p.getTotalCantidad() + ", " + p.getFactor() + ", " + p.getCantidad() + ", '" + p.getLectura_SVAL() + "', " + p.getID_Map() + ", '" + p.getTipoRegistro() + "', '" + p.getFechaHoraModificacion() + "', '" + p.getUsuarioModificaion() + "')");
                     Statement stmt = con.createStatement();
                     //executeUpdate devuelve el número de rows afectadas
                     if (stmt.executeUpdate(query) > 0) {
@@ -261,7 +266,7 @@ public class GestionPesaje {
                     return false;
                 } else {
                     //Consulta SQL
-                    String query = "insert into PesajeTest values ('" + p.getProducto() + "', '" + p.getQRenvase() + "', '" + p.getCuadrilla() + "', '" + p.getRutTrabajador() + "', '" + p.getRutPesador() + "', '" + p.getFundo() + "', '" + p.getPotrero() + "', '" + p.getSector() + "', '" + p.getVariedad() + "', " + "-" + ", '" + p.getCuartel() + "', '" + p.getFechaHora() + "', " + p.getPesoNeto() + ", " + p.getTara() + ", '" + p.getFormato() + "', " + p.getTotalCantidad() + ", " + p.getFactor() + ", " + p.getCantidad() + ", '" + p.getLectura_SVAL() + "', " + p.getID_Map() + ", '" + p.getTipoRegistro() + "', '" + p.getFechaHoraModificacion() + "', '" + p.getUsuarioModificaion() + "')";
+                    String query = "insert into PesajeTest values ('" + p.getProducto() + "', '" + p.getQRenvase() + "', '" + p.getCuadrilla() + "', '" + p.getRutTrabajador() + "', '" + p.getRutPesador() + "', '" + p.getFundo() + "', '" + p.getPotrero() + "', '" + p.getSector() + "', '" + p.getVariedad() + "', '" + "-" + "', '" + p.getCuartel() + "', '" + p.getFechaHora() + "', " + p.getPesoNeto() + ", " + p.getTara() + ", '" + p.getFormato() + "', " + p.getTotalCantidad() + ", " + p.getFactor() + ", " + p.getCantidad() + ", '" + p.getLectura_SVAL() + "', " + p.getID_Map() + ", '" + p.getTipoRegistro() + "', '" + p.getFechaHoraModificacion() + "', '" + p.getUsuarioModificaion() + "')";
                     Statement stmt = con.createStatement();
                     stmt.executeUpdate(query);
                     con.close();
